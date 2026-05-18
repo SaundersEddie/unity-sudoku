@@ -1,7 +1,9 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using UnitySudoku.Core;
+using UnitySudoku.Core.Sudoku;
 using UnitySudoku.SceneFlow;
 
 namespace UnitySudoku.UI
@@ -9,6 +11,8 @@ namespace UnitySudoku.UI
     [RequireComponent(typeof(UIDocument))]
     public sealed class GamePlayController : MonoBehaviour
     {
+        private const int GridSize = 9;
+
         private Label _difficultyLabel;
         private Label _timerLabel;
         private Label _movesLabel;
@@ -19,6 +23,10 @@ namespace UnitySudoku.UI
         private Button _clearButton;
         private Button _pauseButton;
         private Button _menuButton;
+
+        private readonly List<Label> _cellLabels = new();
+
+        private int[,] _solutionBoard;
 
         private void OnEnable()
         {
@@ -40,6 +48,7 @@ namespace UnitySudoku.UI
 
             SetInitialLabels();
             BuildEmptyBoard();
+            GenerateAndRenderSolvedBoard();
         }
 
         private void OnDisable()
@@ -63,10 +72,11 @@ namespace UnitySudoku.UI
         private void BuildEmptyBoard()
         {
             _sudokuBoard.Clear();
+            _cellLabels.Clear();
 
-            for (int row = 0; row < 9; row++)
+            for (int row = 0; row < GridSize; row++)
             {
-                for (int col = 0; col < 9; col++)
+                for (int col = 0; col < GridSize; col++)
                 {
                     Label cell = new Label(string.Empty)
                     {
@@ -86,6 +96,21 @@ namespace UnitySudoku.UI
                     }
 
                     _sudokuBoard.Add(cell);
+                    _cellLabels.Add(cell);
+                }
+            }
+        }
+
+        private void GenerateAndRenderSolvedBoard()
+        {
+            _solutionBoard = SudokuGenerator.GenerateSolution();
+
+            for (int row = 0; row < GridSize; row++)
+            {
+                for (int col = 0; col < GridSize; col++)
+                {
+                    int cellIndex = row * GridSize + col;
+                    _cellLabels[cellIndex].text = _solutionBoard[row, col].ToString();
                 }
             }
         }
