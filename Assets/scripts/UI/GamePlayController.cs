@@ -232,11 +232,30 @@ namespace UnitySudoku.UI
             }
 
             StartTimerIfNeeded();
-            
+
             RenderCell(_selectedRow, _selectedCol);
             UpdateMovesLabel();
             RefreshCellHighlights();
             UpdateCompletedNumberButtons();
+            CheckForCompletion();
+        }
+
+        private void CheckForCompletion()
+        {
+            if (!_gameState.IsCompleteAndCorrect())
+            {
+                return;
+            }
+
+            StopTimer();
+
+            GameSettings.SaveCompletedGame(
+                GameSettings.SelectedDifficulty,
+                _gameState.MoveCount,
+                GetElapsedTimeSeconds()
+            );
+
+            SceneManager.LoadScene(SceneNames.GameOver);
         }
 
         private void ClearSelectedCell()
@@ -381,6 +400,11 @@ namespace UnitySudoku.UI
             UpdateTimerLabel();
         }
 
+        private void StopTimer()
+        {
+            _timerIsRunning = false;
+        }       
+
         private void UpdateTimerLabel()
         {
             int totalSeconds = Mathf.FloorToInt(_elapsedSeconds);
@@ -388,6 +412,11 @@ namespace UnitySudoku.UI
             int seconds = totalSeconds % 60;
 
             _timerLabel.text = $"Time: {minutes:00}:{seconds:00}";
+        }
+
+        private int GetElapsedTimeSeconds()
+        {
+            return Mathf.FloorToInt(_elapsedSeconds);
         }
 
         private void UpdateMovesLabel()

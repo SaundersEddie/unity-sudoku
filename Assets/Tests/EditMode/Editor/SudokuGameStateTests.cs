@@ -186,5 +186,96 @@ namespace UnitySudoku.Tests.EditMode
             Assert.IsTrue(gameState.IsWrongValue(0, 0));
             Assert.IsFalse(gameState.IsCorrectValue(0, 0));
         }
+
+        [Test]
+        public void IsCompleteAndCorrect_ReturnsFalseForEmptyEditableBoard()
+        {
+            int[,] solution = SudokuGenerator.GenerateSolution(seed: 12345);
+            bool[,] givenCells = new bool[9, 9];
+
+            SudokuGameState gameState = new SudokuGameState(solution, givenCells);
+
+            Assert.IsFalse(gameState.IsCompleteAndCorrect());
+        }
+
+        [Test]
+        public void IsCompleteAndCorrect_ReturnsFalseForPartiallyFilledBoard()
+        {
+            int[,] solution = SudokuGenerator.GenerateSolution(seed: 12345);
+            bool[,] givenCells = new bool[9, 9];
+
+            SudokuGameState gameState = new SudokuGameState(solution, givenCells);
+
+            gameState.TrySetPlayerValue(0, 0, solution[0, 0]);
+
+            Assert.IsFalse(gameState.IsCompleteAndCorrect());
+        }
+
+        [Test]
+        public void IsCompleteAndCorrect_ReturnsFalseForWrongCompletedBoard()
+        {
+            int[,] solution = SudokuGenerator.GenerateSolution(seed: 12345);
+            bool[,] givenCells = new bool[9, 9];
+
+            SudokuGameState gameState = new SudokuGameState(solution, givenCells);
+
+            for (int row = 0; row < 9; row++)
+            {
+                for (int col = 0; col < 9; col++)
+                {
+                    int wrongValue = solution[row, col] == 1 ? 2 : 1;
+                    gameState.TrySetPlayerValue(row, col, wrongValue);
+                }
+            }
+
+            Assert.IsFalse(gameState.IsCompleteAndCorrect());
+        }
+
+        [Test]
+        public void IsCompleteAndCorrect_ReturnsTrueForCorrectCompletedBoard()
+        {
+            int[,] solution = SudokuGenerator.GenerateSolution(seed: 12345);
+            bool[,] givenCells = new bool[9, 9];
+
+            SudokuGameState gameState = new SudokuGameState(solution, givenCells);
+
+            for (int row = 0; row < 9; row++)
+            {
+                for (int col = 0; col < 9; col++)
+                {
+                    gameState.TrySetPlayerValue(row, col, solution[row, col]);
+                }
+            }
+
+            Assert.IsTrue(gameState.IsCompleteAndCorrect());
+        }
+
+        [Test]
+        public void IsCompleteAndCorrect_HandlesGivenCells()
+        {
+            int[,] solution = SudokuGenerator.GenerateSolution(seed: 12345);
+            bool[,] givenCells = new bool[9, 9];
+
+            givenCells[0, 0] = true;
+            givenCells[1, 1] = true;
+
+            SudokuGameState gameState = new SudokuGameState(solution, givenCells);
+
+            for (int row = 0; row < 9; row++)
+            {
+                for (int col = 0; col < 9; col++)
+                {
+                    if (givenCells[row, col])
+                    {
+                        continue;
+                    }
+
+                    gameState.TrySetPlayerValue(row, col, solution[row, col]);
+                }
+            }
+
+            Assert.IsTrue(gameState.IsCompleteAndCorrect());
+        }
+
     }
 }

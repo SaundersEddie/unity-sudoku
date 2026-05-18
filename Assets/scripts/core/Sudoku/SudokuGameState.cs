@@ -138,5 +138,33 @@ namespace UnitySudoku.Core.Sudoku
                 throw new ArgumentOutOfRangeException(nameof(col));
             }
         }
+
+        public bool IsCompleteAndCorrect()
+        {
+            for (int row = 0; row < GridSize; row++)
+            {
+                for (int col = 0; col < GridSize; col++)
+                {
+                    if (_givenCells[row, col])
+                    {
+                        continue;
+                    }
+
+                    int playerValue = _playerValues[row, col];
+
+                    if (playerValue == 0)
+                    {
+                        return false;
+                    }
+
+                    if (playerValue != _solution[row, col])
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
     }
 }
