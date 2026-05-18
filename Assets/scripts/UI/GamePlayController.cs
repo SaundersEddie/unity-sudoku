@@ -53,6 +53,8 @@ namespace UnitySudoku.UI
             VisualElement root = document.rootVisualElement;
             _root = root;
             _gameCard = root.Q<VisualElement>("gameCard");
+            _root.focusable = true;
+            _root.RegisterCallback<KeyDownEvent>(HandleKeyDown);
 
             _difficultyLabel = root.Q<Label>("difficultyLabel");
             _timerLabel = root.Q<Label>("timerLabel");
@@ -83,6 +85,7 @@ namespace UnitySudoku.UI
             BuildEmptyBoard();
             GenerateAndRenderPuzzle();
             ApplyTheme();
+            _root.Focus();
         }
 
         private void OnDisable()
@@ -120,6 +123,11 @@ namespace UnitySudoku.UI
             if (_themeButton != null)
             {
                 _themeButton.clicked -= ToggleTheme;
+            }
+
+            if (_root != null)
+            {
+                _root.UnregisterCallback<KeyDownEvent>(HandleKeyDown);
             }
 
             foreach (KeyValuePair<Button, EventCallback<ClickEvent>> pair in _numberButtonCallbacks)
@@ -287,6 +295,7 @@ namespace UnitySudoku.UI
             }
 
             _timerWasRunningBeforePause = false;
+            _root.Focus();
         }
 
         private void SelectCell(int row, int col)
@@ -300,11 +309,17 @@ namespace UnitySudoku.UI
             _selectedCol = col;
 
             RefreshCellHighlights();
+            _root.Focus();
         }
 
         private void SetSelectedCellValue(int value)
         {
             if (!HasSelectedCell() || _isPaused)
+            {
+                return;
+            }
+
+            if (IsNumberComplete(value))
             {
                 return;
             }
@@ -339,6 +354,51 @@ namespace UnitySudoku.UI
             RefreshCellHighlights();
             UpdateCompletedNumberButtons();
             CheckForCompletion();
+            _root.Focus();
+        }
+
+        private void HandleKeyDown(KeyDownEvent evt)
+        {
+            if (evt == null)
+            {
+                return;
+            }
+
+            if (evt.keyCode >= KeyCode.Alpha1 && evt.keyCode <= KeyCode.Alpha9)
+            {
+                int value = evt.keyCode - KeyCode.Alpha0;
+                SetSelectedCellValue(value);
+                evt.StopPropagation();
+                return;
+            }
+
+            if (evt.keyCode >= KeyCode.Keypad1 && evt.keyCode <= KeyCode.Keypad9)
+            {
+                int value = evt.keyCode - KeyCode.Keypad0;
+                SetSelectedCellValue(value);
+                evt.StopPropagation();
+                return;
+            }
+
+            if (evt.keyCode == KeyCode.Backspace || evt.keyCode == KeyCode.Delete)
+            {
+                ClearSelectedCell();
+                evt.StopPropagation();
+                return;
+            }
+
+            if (evt.keyCode == KeyCode.N)
+            {
+                ToggleNotesMode();
+                evt.StopPropagation();
+                return;
+            }
+
+            if (evt.keyCode == KeyCode.P || evt.keyCode == KeyCode.Escape)
+            {
+                TogglePauseFromKeyboard();
+                evt.StopPropagation();
+            }
         }
 
         private void CheckForCompletion()
@@ -390,6 +450,7 @@ namespace UnitySudoku.UI
             }
 
             RefreshCellHighlights();
+            _root.Focus();
         }
 
         private void RenderCell(int row, int col)
@@ -604,6 +665,29 @@ namespace UnitySudoku.UI
             }
         }
 
+        private bool IsNumberComplete(int number)
+        {
+            if (number < 1 || number > GridSize)
+            {
+                return false;
+            }
+
+            int count = 0;
+
+            for (int row = 0; row < GridSize; row++)
+            {
+                for (int col = 0; col < GridSize; col++)
+                {
+                    if (GetDisplayedCellValue(row, col) == number)
+                    {
+                        count++;
+                    }
+                }
+            }
+
+            return count >= GridSize;
+        }
+
         private void ToggleNotesMode()
         {
             if (_isPaused)
@@ -623,8 +707,10 @@ namespace UnitySudoku.UI
             {
                 _notesButton.RemoveFromClassList("active-button");
             }
+
+            _root.Focus();
         }
-        
+
         private void ToggleTheme()
         {
             GameSettings.UseDarkTheme = !GameSettings.UseDarkTheme;
@@ -642,6 +728,18 @@ namespace UnitySudoku.UI
             {
                 _root.RemoveFromClassList("dark-theme");
                 _themeButton.text = "Theme: Light";
+            }
+        }
+
+        private void TogglePauseFromKeyboard()
+        {
+            if (_isPaused)
+            {
+                ResumeGame();
+            }
+            else
+            {
+                PauseGame();
             }
         }
     }
