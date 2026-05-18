@@ -21,7 +21,7 @@
 }
 
 .title-label {
-    unity-font-style: bold;
+    -unity-font-style: bold;
     font-size: 34px;
     color: #1f1f1f;
     -unity-text-align: middle-center;
@@ -38,7 +38,7 @@
 .stat-label {
     font-size: 15px;
     color: #333333;
-    unity-font-style: bold;
+    -unity-font-style: bold;
     margin-left: 10px;
     margin-right: 10px;
 }
@@ -78,7 +78,7 @@
     border-color: #aaaaaa;
 
     color: #222222;
-    unity-font-style: bold;
+    -unity-font-style: bold;
     font-size: 22px;
     -unity-text-align: middle-center;
 }
@@ -146,7 +146,7 @@
     color: #222222;
     border-width: 2px;
     border-color: #333333;
-    unity-font-style: bold;
+    -unity-font-style: bold;
     font-size: 15px;
 }
 
@@ -187,7 +187,7 @@
 .notes-cell {
     font-size: 12px;
     color: #666666;
-    unity-font-style: bold;
+    -unity-font-style: bold;
     white-space: normal;
 }
 
@@ -219,7 +219,7 @@
 }
 
 .pause-title {
-    unity-font-style: bold;
+    -unity-font-style: bold;
     font-size: 32px;
     color: #1f1f1f;
     -unity-text-align: middle-center;

@@ -17,7 +17,7 @@
 }
 
 .title-label {
-    unity-font-style: bold;
+    -unity-font-style: bold;
     font-size: 34px;
     color: #1f1f1f;
     -unity-text-align: middle-center;
@@ -28,7 +28,7 @@
 .result-label {
     font-size: 18px;
     color: #333333;
-    unity-font-style: bold;
+    -unity-font-style: bold;
     -unity-text-align: middle-center;
     margin-bottom: 10px;
 }
@@ -43,7 +43,7 @@
     height: 48px;
     margin-bottom: 10px;
     border-radius: 16px;
-    unity-font-style: bold;
+    -unity-font-style: bold;
     font-size: 16px;
 }
 
