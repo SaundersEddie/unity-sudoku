@@ -13,6 +13,8 @@ namespace UnitySudoku.UI
     {
         private const int GridSize = 9;
         private const int BoxSize = 3;
+        private float _elapsedSeconds;
+        private bool _timerIsRunning;
 
         private Label _difficultyLabel;
         private Label _timerLabel;
@@ -26,6 +28,7 @@ namespace UnitySudoku.UI
         private Button _menuButton;
 
         private readonly List<Label> _cellLabels = new();
+        private readonly List<Button> _numberButtons = new();
         private readonly Dictionary<Button, EventCallback<ClickEvent>> _numberButtonCallbacks = new();
 
         private int[,] _solutionBoard;
@@ -81,8 +84,20 @@ namespace UnitySudoku.UI
             _numberButtonCallbacks.Clear();
         }
 
+        private void Update()
+        {
+            if (!_timerIsRunning)
+            {
+                return;
+            }
+
+            _elapsedSeconds += Time.deltaTime;
+            UpdateTimerLabel();
+        }
+
         private void CacheNumberButtons(VisualElement root)
         {
+            _numberButtons.Clear();
             _numberButtonCallbacks.Clear();
 
             for (int number = 1; number <= 9; number++)
@@ -93,6 +108,7 @@ namespace UnitySudoku.UI
                 EventCallback<ClickEvent> callback = _ => SetSelectedCellValue(capturedNumber);
 
                 button.RegisterCallback(callback);
+                _numberButtons.Add(button);
                 _numberButtonCallbacks.Add(button, callback);
             }
         }
@@ -189,6 +205,8 @@ namespace UnitySudoku.UI
             }
 
             UpdateMovesLabel();
+            ResetTimer();
+            UpdateCompletedNumberButtons();
         }
 
         private void SelectCell(int row, int col)
@@ -213,9 +231,12 @@ namespace UnitySudoku.UI
                 return;
             }
 
+            StartTimerIfNeeded();
+            
             RenderCell(_selectedRow, _selectedCol);
             UpdateMovesLabel();
             RefreshCellHighlights();
+            UpdateCompletedNumberButtons();
         }
 
         private void ClearSelectedCell()
@@ -232,9 +253,12 @@ namespace UnitySudoku.UI
                 return;
             }
 
+            StartTimerIfNeeded();
+
             RenderCell(_selectedRow, _selectedCol);
             UpdateMovesLabel();
             RefreshCellHighlights();
+            UpdateCompletedNumberButtons();
         }
 
         private void RenderCell(int row, int col)
@@ -340,6 +364,32 @@ namespace UnitySudoku.UI
             return _cellLabels[cellIndex];
         }
 
+        private void StartTimerIfNeeded()
+        {
+            if (_timerIsRunning)
+            {
+                return;
+            }
+
+            _timerIsRunning = true;
+        }
+
+        private void ResetTimer()
+        {
+            _elapsedSeconds = 0f;
+            _timerIsRunning = false;
+            UpdateTimerLabel();
+        }
+
+        private void UpdateTimerLabel()
+        {
+            int totalSeconds = Mathf.FloorToInt(_elapsedSeconds);
+            int minutes = totalSeconds / 60;
+            int seconds = totalSeconds % 60;
+
+            _timerLabel.text = $"Time: {minutes:00}:{seconds:00}";
+        }
+
         private void UpdateMovesLabel()
         {
             _movesLabel.text = $"Moves: {_gameState.MoveCount}";
@@ -348,6 +398,39 @@ namespace UnitySudoku.UI
         private void ReturnToMainMenu()
         {
             SceneManager.LoadScene(SceneNames.MainMenu);
+        }
+
+        private void UpdateCompletedNumberButtons()
+        {
+            int[] numberCounts = new int[GridSize + 1];
+
+            for (int row = 0; row < GridSize; row++)
+            {
+                for (int col = 0; col < GridSize; col++)
+                {
+                    int value = GetDisplayedCellValue(row, col);
+
+                    if (value >= 1 && value <= GridSize)
+                    {
+                        numberCounts[value]++;
+                    }
+                }
+            }
+
+            for (int index = 0; index < _numberButtons.Count; index++)
+            {
+                int number = index + 1;
+                Button button = _numberButtons[index];
+
+                if (numberCounts[number] >= GridSize)
+                {
+                    button.AddToClassList("number-complete");
+                }
+                else
+                {
+                    button.RemoveFromClassList("number-complete");
+                }
+            }
         }
     }
 }
