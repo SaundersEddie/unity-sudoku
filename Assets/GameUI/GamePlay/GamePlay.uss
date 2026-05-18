@@ -2,30 +2,30 @@
     flex-grow: 1;
     align-items: center;
     justify-content: center;
-    padding: 10px;
+    padding: 24px;
     background-color: #161616;
 }
 
 .game-card {
-    width: 640px;
+    width: 720px;
     max-width: 92%;
-    padding: 12px;
-    border-radius: 18px;
+    padding: 24px;
+    border-radius: 22px;
     background-color: #f4f1ea;
     border-width: 4px;
     border-color: #2b2b2b;
 }
 
 .top-bar {
-    margin-bottom: 6px;
+    margin-bottom: 18px;
 }
 
 .title-label {
     -unity-font-style: bold;
-    font-size: 24px;
+    font-size: 34px;
     color: #1f1f1f;
     -unity-text-align: middle-center;
-    margin-bottom: 4px;
+    margin-bottom: 10px;
     letter-spacing: 2px;
 }
 
@@ -36,22 +36,22 @@
 }
 
 .stat-label {
-    font-size: 12px;
+    font-size: 15px;
     color: #333333;
     -unity-font-style: bold;
-    margin-left: 7px;
-    margin-right: 7px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .board-container {
     align-items: center;
     justify-content: center;
-    margin-bottom: 8px;
+    margin-bottom: 18px;
 }
 
 .sudoku-board {
-    width: 366px;
-    height: 366px;
+    width: 456px;
+    height: 456px;
     background-color: #111111;
     border-width: 3px;
     border-color: #111111;
@@ -60,23 +60,26 @@
 }
 
 .sudoku-cell {
-    width: 40px;
-    height: 40px;
-    min-width: 40px;
-    min-height: 40px;
-    max-width: 40px;
-    max-height: 40px;
+    width: 50px;
+    height: 50px;
+    min-width: 50px;
+    min-height: 50px;
+    max-width: 50px;
+    max-height: 50px;
+
     margin: 0;
     padding: 0;
+
     background-color: #ffffff;
     border-left-width: 0;
     border-top-width: 0;
     border-right-width: 1px;
     border-bottom-width: 1px;
     border-color: #aaaaaa;
+
     color: #222222;
     -unity-font-style: bold;
-    font-size: 18px;
+    font-size: 22px;
     -unity-text-align: middle-center;
 }
 
@@ -90,24 +93,28 @@
     border-bottom-color: #111111;
 }
 
+.sudoku-cell {
+    -unity-text-align: middle-center;
+}
+
 .number-pad {
     flex-direction: row;
     justify-content: center;
     flex-wrap: wrap;
-    margin-bottom: 6px;
+    margin-bottom: 14px;
 }
 
 .number-button {
-    width: 42px;
-    height: 36px;
-    margin: 3px;
-    border-radius: 10px;
+    width: 52px;
+    height: 44px;
+    margin: 4px;
+    border-radius: 12px;
     background-color: #ffffff;
     color: #222222;
     border-width: 2px;
     border-color: #333333;
-    -unity-font-style: bold;
-    font-size: 15px;
+    unity-font-style: bold;
+    font-size: 18px;
 }
 
 .number-button:hover {
@@ -131,39 +138,21 @@
 }
 
 .secondary-button {
-    width: 108px;
-    height: 36px;
-    margin: 3px;
-    border-radius: 12px;
+    width: 130px;
+    height: 44px;
+    margin: 4px;
+    border-radius: 14px;
     background-color: #ffffff;
     color: #222222;
     border-width: 2px;
     border-color: #333333;
     -unity-font-style: bold;
-    font-size: 12px;
+    font-size: 15px;
 }
 
 .secondary-button:hover {
     background-color: #e7e2d7;
 }
-
-.primary-button {
-    width: 100%;
-    height: 42px;
-    margin-bottom: 8px;
-    border-radius: 14px;
-    background-color: #222222;
-    color: #ffffff;
-    border-width: 2px;
-    border-color: #222222;
-    -unity-font-style: bold;
-    font-size: 14px;
-}
-
-.primary-button:hover {
-    background-color: #444444;
-}
-
 .related-cell {
     background-color: #f0f0f0;
 }
@@ -182,7 +171,7 @@
 
 .given-cell {
     color: #111111;
-    -unity-font-style: bold;
+    unity-font-style: bold;
 }
 
 .correct-cell {
@@ -196,7 +185,7 @@
 }
 
 .notes-cell {
-    font-size: 10px;
+    font-size: 12px;
     color: #666666;
     -unity-font-style: bold;
     white-space: normal;
@@ -216,14 +205,14 @@
     bottom: 0;
     align-items: center;
     justify-content: center;
-    background-color: rgba(22, 22, 22, 0.94);
+    background-color: rgba(22, 22, 22, 0.92);
 }
 
 .pause-card {
-    width: 320px;
+    width: 360px;
     max-width: 88%;
-    padding: 22px;
-    border-radius: 18px;
+    padding: 28px;
+    border-radius: 22px;
     background-color: #f4f1ea;
     border-width: 4px;
     border-color: #2b2b2b;
@@ -231,18 +220,18 @@
 
 .pause-title {
     -unity-font-style: bold;
-    font-size: 26px;
+    font-size: 32px;
     color: #1f1f1f;
     -unity-text-align: middle-center;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
     letter-spacing: 2px;
 }
 
 .pause-text {
-    font-size: 13px;
+    font-size: 15px;
     color: #555555;
     -unity-text-align: middle-center;
-    margin-bottom: 16px;
+    margin-bottom: 20px;
 }
 
 .board-paused {

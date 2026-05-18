@@ -23,6 +23,7 @@
     -unity-text-align: middle-center;
     margin-bottom: 6px;
     letter-spacing: 1px;
+    white-space: normal;
 }
 
 .subtitle-label {
@@ -57,7 +58,7 @@
     color: #222222;
     border-width: 2px;
     border-color: #333333;
-    unity-font-style: bold;
+    -unity-font-style: bold;
     font-size: 15px;
 }
 
@@ -136,7 +137,7 @@
 }
 
 .about-title {
-    unity-font-style: bold;
+    -unity-font-style: bold;
     font-size: 26px;
     color: #1f1f1f;
     -unity-text-align: middle-center;
