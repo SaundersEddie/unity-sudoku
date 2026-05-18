@@ -16,6 +16,8 @@ namespace UnitySudoku.UI
         private float _elapsedSeconds;
         private bool _timerIsRunning;
         private bool _notesModeEnabled;
+        private bool _isPaused;
+        private bool _timerWasRunningBeforePause;
 
         private Label _difficultyLabel;
         private Label _timerLabel;
@@ -27,6 +29,9 @@ namespace UnitySudoku.UI
         private Button _clearButton;
         private Button _pauseButton;
         private Button _menuButton;
+        private Button _resumeButton;
+        private Button _pauseMenuButton;
+        private VisualElement _pauseOverlay;
 
         private readonly List<Label> _cellLabels = new();
         private readonly List<Button> _numberButtons = new();
@@ -54,12 +59,18 @@ namespace UnitySudoku.UI
             _clearButton = root.Q<Button>("clearButton");
             _pauseButton = root.Q<Button>("pauseButton");
             _menuButton = root.Q<Button>("menuButton");
+            _resumeButton = root.Q<Button>("resumeButton");
+            _pauseMenuButton = root.Q<Button>("pauseMenuButton");
+            _pauseOverlay = root.Q<VisualElement>("pauseOverlay");
 
             CacheNumberButtons(root);
 
             _clearButton.clicked += ClearSelectedCell;
             _menuButton.clicked += ReturnToMainMenu;
             _notesButton.clicked += ToggleNotesMode;
+            _pauseButton.clicked += PauseGame;
+            _resumeButton.clicked += ResumeGame;
+            _pauseMenuButton.clicked += ReturnToMainMenu;
 
             SetInitialLabels();
             BuildEmptyBoard();
@@ -81,6 +92,21 @@ namespace UnitySudoku.UI
             if (_notesButton != null)
             {
                 _notesButton.clicked -= ToggleNotesMode;
+            }
+
+            if (_pauseButton != null)
+            {
+                _pauseButton.clicked -= PauseGame;
+            }
+
+            if (_resumeButton != null)
+            {
+                _resumeButton.clicked -= ResumeGame;
+            }
+
+            if (_pauseMenuButton != null)
+            {
+                _pauseMenuButton.clicked -= ReturnToMainMenu;
             }
 
             foreach (KeyValuePair<Button, EventCallback<ClickEvent>> pair in _numberButtonCallbacks)
@@ -216,8 +242,47 @@ namespace UnitySudoku.UI
             UpdateCompletedNumberButtons();
         }
 
+        private void PauseGame()
+        {
+            if (_isPaused)
+            {
+                return;
+            }
+
+            _timerWasRunningBeforePause = _timerIsRunning;
+            StopTimer();
+
+            _isPaused = true;
+            _pauseOverlay.RemoveFromClassList("hidden");
+            _sudokuBoard.AddToClassList("board-paused");
+        }
+
+        private void ResumeGame()
+        {
+            if (!_isPaused)
+            {
+                return;
+            }
+
+            _isPaused = false;
+            _pauseOverlay.AddToClassList("hidden");
+            _sudokuBoard.RemoveFromClassList("board-paused");
+
+            if (_timerWasRunningBeforePause)
+            {
+                StartTimerIfNeeded();
+            }
+
+            _timerWasRunningBeforePause = false;
+        }
+
         private void SelectCell(int row, int col)
         {
+            if (_isPaused)
+            {
+                return;
+            }
+
             _selectedRow = row;
             _selectedCol = col;
 
@@ -226,7 +291,7 @@ namespace UnitySudoku.UI
 
         private void SetSelectedCellValue(int value)
         {
-            if (!HasSelectedCell())
+            if (!HasSelectedCell() || _isPaused)
             {
                 return;
             }
@@ -283,7 +348,7 @@ namespace UnitySudoku.UI
 
         private void ClearSelectedCell()
         {
-            if (!HasSelectedCell())
+            if (!HasSelectedCell() || _isPaused)
             {
                 return;
             }
@@ -528,6 +593,11 @@ namespace UnitySudoku.UI
 
         private void ToggleNotesMode()
         {
+            if (_isPaused)
+            {
+                return;
+            }
+
             _notesModeEnabled = !_notesModeEnabled;
 
             _notesButton.text = _notesModeEnabled ? "Notes: On" : "Notes: Off";
