@@ -665,29 +665,6 @@ namespace UnitySudoku.UI
             }
         }
 
-        // private bool IsNumberComplete(int number)
-        // {
-        //     if (number < 1 || number > GridSize)
-        //     {
-        //         return false;
-        //     }
-
-        //     int count = 0;
-
-        //     for (int row = 0; row < GridSize; row++)
-        //     {
-        //         for (int col = 0; col < GridSize; col++)
-        //         {
-        //             if (GetDisplayedCellValue(row, col) == number)
-        //             {
-        //                 count++;
-        //             }
-        //         }
-        //     }
-
-        //     return count >= GridSize;
-        // }
-
         private void ToggleNotesMode()
         {
             if (_isPaused)
