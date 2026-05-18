@@ -1,0 +1,155 @@
+.main-menu-root {
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background-color: #161616;
+}
+
+.menu-card {
+    width: 460px;
+    max-width: 88%;
+    padding: 28px;
+    border-radius: 24px;
+    background-color: #f4f1ea;
+    border-width: 4px;
+    border-color: #2b2b2b;
+}
+
+.title-label {
+    -unity-font-style: bold;
+    font-size: 34px;
+    color: #1f1f1f;
+    -unity-text-align: middle-center;
+    margin-bottom: 6px;
+    letter-spacing: 2px;
+}
+
+.subtitle-label {
+    font-size: 16px;
+    color: #555555;
+    -unity-text-align: middle-center;
+    margin-bottom: 24px;
+}
+
+.section {
+    margin-bottom: 22px;
+}
+
+.section-title {
+    -unity-font-style: bold;
+    font-size: 18px;
+    color: #222222;
+    margin-bottom: 10px;
+}
+
+.difficulty-buttons {
+    flex-direction: column;
+    margin-bottom: 14px;
+}
+
+.difficulty-button {
+    width: 100%;
+    height: 44px;
+    margin-bottom: 8px;
+    border-radius: 14px;
+    background-color: #ffffff;
+    color: #222222;
+    border-width: 2px;
+    border-color: #333333;
+    -unity-font-style: bold;
+    font-size: 15px;
+}
+
+.difficulty-button:hover {
+    background-color: #e7e2d7;
+}
+
+.difficulty-button.selected {
+    background-color: #222222;
+    color: #ffffff;
+}
+
+.difficulty-info {
+    font-size: 14px;
+    color: #555555;
+    -unity-text-align: middle-center;
+    margin-top: 4px;
+}
+
+.main-buttons {
+    margin-top: 14px;
+}
+
+.primary-button,
+.secondary-button {
+    width: 100%;
+    height: 48px;
+    margin-bottom: 10px;
+    border-radius: 16px;
+    -unity-font-style: bold;
+    font-size: 16px;
+}
+
+.primary-button {
+    background-color: #222222;
+    color: #ffffff;
+    border-width: 2px;
+    border-color: #222222;
+}
+
+.primary-button:hover {
+    background-color: #444444;
+}
+
+.secondary-button {
+    background-color: #ffffff;
+    color: #222222;
+    border-width: 2px;
+    border-color: #333333;
+}
+
+.secondary-button:hover {
+    background-color: #e7e2d7;
+}
+
+.about-panel {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background-color: rgba(0, 0, 0, 0.72);
+}
+
+.about-card {
+    width: 500px;
+    max-width: 88%;
+    padding: 26px;
+    border-radius: 22px;
+    background-color: #f4f1ea;
+    border-width: 4px;
+    border-color: #2b2b2b;
+}
+
+.about-title {
+    -unity-font-style: bold;
+    font-size: 26px;
+    color: #1f1f1f;
+    -unity-text-align: middle-center;
+    margin-bottom: 16px;
+}
+
+.about-text {
+    font-size: 15px;
+    color: #333333;
+    white-space: normal;
+    margin-bottom: 14px;
+}
+
+.hidden {
+    display: none;
+}

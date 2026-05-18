@@ -1,0 +1,32 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/GameUI/MainMenu/MainMenu.uss?fileID=7433441132597879392&amp;guid=6248ec574f9fe47d0ade8f6906436760&amp;type=3#MainMenu"/>
+    <ui:VisualElement name="mainMenuRoot" class="main-menu-root">
+        <ui:VisualElement name="menuCard" class="menu-card">
+            <ui:Label name="titleLabel" text="UNITY SUDOKU" class="title-label"/>
+            <ui:Label name="subtitleLabel" text="Choose your punishment." class="subtitle-label"/>
+            <ui:VisualElement name="difficultySection" class="section">
+                <ui:Label text="Difficulty" class="section-title"/>
+                <ui:VisualElement name="difficultyButtons" class="difficulty-buttons">
+                    <ui:Button name="easyButton" text="Easy" class="difficulty-button selected"/>
+                    <ui:Button name="mediumButton" text="Medium" class="difficulty-button"/>
+                    <ui:Button name="hardButton" text="Hard" class="difficulty-button"/>
+                    <ui:Button name="godlikeButton" text="Godlike" class="difficulty-button"/>
+                </ui:VisualElement>
+                <ui:Label name="difficultyInfoLabel" text="Easy: 30 starting clues" class="difficulty-info"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="mainButtons" class="main-buttons">
+                <ui:Button name="playButton" text="Play Level" class="primary-button"/>
+                <ui:Button name="aboutButton" text="About" class="secondary-button"/>
+                <ui:Button name="quitButton" text="Quit" class="secondary-button"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="aboutPanel" class="about-panel hidden">
+            <ui:VisualElement class="about-card">
+                <ui:Label text="About Unity Sudoku" class="about-title"/>
+                <ui:Label text="Unity Sudoku is a digital Sudoku game built from a generated answer key. Each puzzle has one accepted solution: the solution generated for that round. Some low-clue modes may technically allow more than one valid Sudoku completion, but the game validates against the generated solution." class="about-text"/>
+                <ui:Label text="Difficulty controls how many starting clues are shown. Godlike is not here to be your friend." class="about-text"/>
+                <ui:Button name="closeAboutButton" text="Close" class="primary-button"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
