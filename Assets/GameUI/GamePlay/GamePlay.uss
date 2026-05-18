@@ -93,6 +93,11 @@
     border-bottom-color: #111111;
 }
 
+.given-cell {
+    color: #111111;
+    unity-font-style: bold;
+}
+
 .number-pad {
     flex-direction: row;
     justify-content: center;

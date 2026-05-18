@@ -48,7 +48,7 @@ namespace UnitySudoku.UI
 
             SetInitialLabels();
             BuildEmptyBoard();
-            GenerateAndRenderSolvedBoard();
+            GenerateAndRenderPuzzle();
         }
 
         private void OnDisable()
@@ -101,16 +101,35 @@ namespace UnitySudoku.UI
             }
         }
 
-        private void GenerateAndRenderSolvedBoard()
+        private void GenerateAndRenderPuzzle()
         {
+            DifficultyLevel difficulty = GameSettings.SelectedDifficulty;
+            int visibleClueCount = GameSettings.GetVisibleClueCount(difficulty);
+
             _solutionBoard = SudokuGenerator.GenerateSolution();
+
+            SudokuPuzzle puzzle = SudokuPuzzleBuilder.CreatePuzzle(
+                _solutionBoard,
+                visibleClueCount
+            );
 
             for (int row = 0; row < GridSize; row++)
             {
                 for (int col = 0; col < GridSize; col++)
                 {
                     int cellIndex = row * GridSize + col;
-                    _cellLabels[cellIndex].text = _solutionBoard[row, col].ToString();
+                    Label cell = _cellLabels[cellIndex];
+
+                    if (puzzle.VisibleCells[row, col])
+                    {
+                        cell.text = _solutionBoard[row, col].ToString();
+                        cell.AddToClassList("given-cell");
+                    }
+                    else
+                    {
+                        cell.text = string.Empty;
+                        cell.RemoveFromClassList("given-cell");
+                    }
                 }
             }
         }
