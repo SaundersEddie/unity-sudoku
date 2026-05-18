@@ -183,3 +183,16 @@
     color: #8a1c1c;
     background-color: #ffe5e5;
 }
+
+.notes-cell {
+    font-size: 12px;
+    color: #666666;
+    unity-font-style: bold;
+    white-space: normal;
+}
+
+.active-button {
+    background-color: #222222;
+    color: #ffffff;
+    border-color: #222222;
+}

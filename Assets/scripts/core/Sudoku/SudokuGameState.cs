@@ -9,6 +9,7 @@ namespace UnitySudoku.Core.Sudoku
         private readonly int[,] _solution;
         private readonly bool[,] _givenCells;
         private readonly int[,] _playerValues;
+        private readonly bool[,,] _notes;
 
         public int MoveCount { get; private set; }
 
@@ -37,6 +38,7 @@ namespace UnitySudoku.Core.Sudoku
             _solution = solution;
             _givenCells = givenCells;
             _playerValues = new int[GridSize, GridSize];
+            _notes = new bool[GridSize, GridSize, GridSize + 1];
         }
 
         public bool IsGivenCell(int row, int col)
@@ -83,6 +85,7 @@ namespace UnitySudoku.Core.Sudoku
             }
 
             _playerValues[row, col] = value;
+            ClearNotes(row, col);
             MoveCount++;
 
             return true;
@@ -139,6 +142,14 @@ namespace UnitySudoku.Core.Sudoku
             }
         }
 
+        private static void ValidateNoteValue(int value)
+        {
+            if (value < 1 || value > GridSize)
+            {
+                throw new ArgumentOutOfRangeException(nameof(value));
+            }
+        }
+        
         public bool IsCompleteAndCorrect()
         {
             for (int row = 0; row < GridSize; row++)
@@ -165,6 +176,59 @@ namespace UnitySudoku.Core.Sudoku
             }
 
             return true;
+        }
+
+        public bool HasNote(int row, int col, int value)
+        {
+            ValidatePosition(row, col);
+            ValidateNoteValue(value);
+
+            return _notes[row, col, value];
+        }
+
+        public bool ToggleNote(int row, int col, int value)
+        {
+            ValidatePosition(row, col);
+            ValidateNoteValue(value);
+
+            if (_givenCells[row, col])
+            {
+                return false;
+            }
+
+            if (_playerValues[row, col] != 0)
+            {
+                return false;
+            }
+
+            _notes[row, col, value] = !_notes[row, col, value];
+
+            return true;
+        }
+
+        public void ClearNotes(int row, int col)
+        {
+            ValidatePosition(row, col);
+
+            for (int value = 1; value <= GridSize; value++)
+            {
+                _notes[row, col, value] = false;
+            }
+        }
+
+        public bool HasAnyNotes(int row, int col)
+        {
+            ValidatePosition(row, col);
+
+            for (int value = 1; value <= GridSize; value++)
+            {
+                if (_notes[row, col, value])
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

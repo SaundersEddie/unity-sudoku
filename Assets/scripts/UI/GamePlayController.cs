@@ -15,6 +15,7 @@ namespace UnitySudoku.UI
         private const int BoxSize = 3;
         private float _elapsedSeconds;
         private bool _timerIsRunning;
+        private bool _notesModeEnabled;
 
         private Label _difficultyLabel;
         private Label _timerLabel;
@@ -58,6 +59,7 @@ namespace UnitySudoku.UI
 
             _clearButton.clicked += ClearSelectedCell;
             _menuButton.clicked += ReturnToMainMenu;
+            _notesButton.clicked += ToggleNotesMode;
 
             SetInitialLabels();
             BuildEmptyBoard();
@@ -74,6 +76,11 @@ namespace UnitySudoku.UI
             if (_menuButton != null)
             {
                 _menuButton.clicked -= ReturnToMainMenu;
+            }
+
+            if (_notesButton != null)
+            {
+                _notesButton.clicked -= ToggleNotesMode;
             }
 
             foreach (KeyValuePair<Button, EventCallback<ClickEvent>> pair in _numberButtonCallbacks)
@@ -224,6 +231,22 @@ namespace UnitySudoku.UI
                 return;
             }
 
+            if (_notesModeEnabled)
+            {
+                bool noteChanged = _gameState.ToggleNote(_selectedRow, _selectedCol, value);
+
+                if (!noteChanged)
+                {
+                    return;
+                }
+
+                StartTimerIfNeeded();
+
+                RenderCell(_selectedRow, _selectedCol);
+                RefreshCellHighlights();
+                return;
+            }
+
             bool changed = _gameState.TrySetPlayerValue(_selectedRow, _selectedCol, value);
 
             if (!changed)
@@ -265,19 +288,30 @@ namespace UnitySudoku.UI
                 return;
             }
 
+            bool hadPlayerValue = _gameState.GetPlayerValue(_selectedRow, _selectedCol) != 0;
+            bool hadNotes = _gameState.HasAnyNotes(_selectedRow, _selectedCol);
+
             bool changed = _gameState.TryClearPlayerValue(_selectedRow, _selectedCol);
 
-            if (!changed)
+            if (!changed && !hadNotes)
             {
                 return;
             }
 
-            StartTimerIfNeeded();
+            if (hadNotes)
+            {
+                _gameState.ClearNotes(_selectedRow, _selectedCol);
+            }
 
             RenderCell(_selectedRow, _selectedCol);
-            UpdateMovesLabel();
+
+            if (hadPlayerValue)
+            {
+                UpdateMovesLabel();
+                UpdateCompletedNumberButtons();
+            }
+
             RefreshCellHighlights();
-            UpdateCompletedNumberButtons();
         }
 
         private void RenderCell(int row, int col)
@@ -286,6 +320,7 @@ namespace UnitySudoku.UI
 
             cell.RemoveFromClassList("correct-cell");
             cell.RemoveFromClassList("wrong-cell");
+            cell.RemoveFromClassList("notes-cell");
 
             if (_gameState.IsGivenCell(row, col))
             {
@@ -296,15 +331,27 @@ namespace UnitySudoku.UI
 
             int playerValue = _gameState.GetPlayerValue(row, col);
 
-            cell.text = playerValue == 0 ? string.Empty : playerValue.ToString();
+            if (playerValue != 0)
+            {
+                cell.text = playerValue.ToString();
 
-            if (_gameState.IsCorrectValue(row, col))
-            {
-                cell.AddToClassList("correct-cell");
+                if (_gameState.IsCorrectValue(row, col))
+                {
+                    cell.AddToClassList("correct-cell");
+                }
+                else if (_gameState.IsWrongValue(row, col))
+                {
+                    cell.AddToClassList("wrong-cell");
+                }
+
+                return;
             }
-            else if (_gameState.IsWrongValue(row, col))
+
+            cell.text = BuildNotesText(row, col);
+
+            if (_gameState.HasAnyNotes(row, col))
             {
-                cell.AddToClassList("wrong-cell");
+                cell.AddToClassList("notes-cell");
             }
         }
 
@@ -429,6 +476,23 @@ namespace UnitySudoku.UI
             SceneManager.LoadScene(SceneNames.MainMenu);
         }
 
+        private string BuildNotesText(int row, int col)
+        {
+            string notesText = string.Empty;
+
+            for (int value = 1; value <= GridSize; value++)
+            {
+                notesText += _gameState.HasNote(row, col, value) ? value.ToString() : " ";
+
+                if (value == 3 || value == 6)
+                {
+                    notesText += "\n";
+                }
+            }
+
+            return notesText.TrimEnd();
+        }
+
         private void UpdateCompletedNumberButtons()
         {
             int[] numberCounts = new int[GridSize + 1];
@@ -459,6 +523,22 @@ namespace UnitySudoku.UI
                 {
                     button.RemoveFromClassList("number-complete");
                 }
+            }
+        }
+
+        private void ToggleNotesMode()
+        {
+            _notesModeEnabled = !_notesModeEnabled;
+
+            _notesButton.text = _notesModeEnabled ? "Notes: On" : "Notes: Off";
+
+            if (_notesModeEnabled)
+            {
+                _notesButton.AddToClassList("active-button");
+            }
+            else
+            {
+                _notesButton.RemoveFromClassList("active-button");
             }
         }
     }

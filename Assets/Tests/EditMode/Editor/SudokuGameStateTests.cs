@@ -277,5 +277,98 @@ namespace UnitySudoku.Tests.EditMode
             Assert.IsTrue(gameState.IsCompleteAndCorrect());
         }
 
+        [Test]
+        public void ToggleNote_AddsNoteToEditableEmptyCell()
+        {
+            int[,] solution = SudokuGenerator.GenerateSolution(seed: 12345);
+            bool[,] givenCells = new bool[9, 9];
+
+            SudokuGameState gameState = new SudokuGameState(solution, givenCells);
+
+            bool changed = gameState.ToggleNote(0, 0, 5);
+
+            Assert.IsTrue(changed);
+            Assert.IsTrue(gameState.HasNote(0, 0, 5));
+            Assert.AreEqual(0, gameState.MoveCount);
+        }
+
+        [Test]
+        public void ToggleNote_RemovesExistingNote()
+        {
+            int[,] solution = SudokuGenerator.GenerateSolution(seed: 12345);
+            bool[,] givenCells = new bool[9, 9];
+
+            SudokuGameState gameState = new SudokuGameState(solution, givenCells);
+
+            gameState.ToggleNote(0, 0, 5);
+            bool changed = gameState.ToggleNote(0, 0, 5);
+
+            Assert.IsTrue(changed);
+            Assert.IsFalse(gameState.HasNote(0, 0, 5));
+            Assert.AreEqual(0, gameState.MoveCount);
+        }
+
+        [Test]
+        public void ToggleNote_RejectsGivenCell()
+        {
+            int[,] solution = SudokuGenerator.GenerateSolution(seed: 12345);
+            bool[,] givenCells = new bool[9, 9];
+            givenCells[0, 0] = true;
+
+            SudokuGameState gameState = new SudokuGameState(solution, givenCells);
+
+            bool changed = gameState.ToggleNote(0, 0, 5);
+
+            Assert.IsFalse(changed);
+            Assert.IsFalse(gameState.HasNote(0, 0, 5));
+        }
+
+        [Test]
+        public void ToggleNote_RejectsCellWithPlayerValue()
+        {
+            int[,] solution = SudokuGenerator.GenerateSolution(seed: 12345);
+            bool[,] givenCells = new bool[9, 9];
+
+            SudokuGameState gameState = new SudokuGameState(solution, givenCells);
+
+            gameState.TrySetPlayerValue(0, 0, 4);
+            bool changed = gameState.ToggleNote(0, 0, 5);
+
+            Assert.IsFalse(changed);
+            Assert.IsFalse(gameState.HasNote(0, 0, 5));
+        }
+
+        [Test]
+        public void TrySetPlayerValue_ClearsNotesInCell()
+        {
+            int[,] solution = SudokuGenerator.GenerateSolution(seed: 12345);
+            bool[,] givenCells = new bool[9, 9];
+
+            SudokuGameState gameState = new SudokuGameState(solution, givenCells);
+
+            gameState.ToggleNote(0, 0, 2);
+            gameState.ToggleNote(0, 0, 5);
+
+            gameState.TrySetPlayerValue(0, 0, 4);
+
+            Assert.IsFalse(gameState.HasAnyNotes(0, 0));
+        }
+
+        [Test]
+        public void ClearNotes_RemovesAllNotesInCell()
+        {
+            int[,] solution = SudokuGenerator.GenerateSolution(seed: 12345);
+            bool[,] givenCells = new bool[9, 9];
+
+            SudokuGameState gameState = new SudokuGameState(solution, givenCells);
+
+            gameState.ToggleNote(0, 0, 2);
+            gameState.ToggleNote(0, 0, 5);
+            gameState.ToggleNote(0, 0, 9);
+
+            gameState.ClearNotes(0, 0);
+
+            Assert.IsFalse(gameState.HasAnyNotes(0, 0));
+        }
     }
 }
