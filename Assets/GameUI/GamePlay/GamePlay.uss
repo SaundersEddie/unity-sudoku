@@ -93,9 +93,8 @@
     border-bottom-color: #111111;
 }
 
-.given-cell {
-    color: #111111;
-    unity-font-style: bold;
+.sudoku-cell {
+    -unity-text-align: middle-center;
 }
 
 .number-pad {
@@ -143,4 +142,34 @@
 
 .secondary-button:hover {
     background-color: #e7e2d7;
+}
+.related-cell {
+    background-color: #f0f0f0;
+}
+
+.matching-cell {
+    background-color: #dedede;
+}
+
+.selected-cell {
+    background-color: #d2d2d2;
+    border-left-width: 3px;
+    border-top-width: 3px;
+    border-left-color: #444444;
+    border-top-color: #444444;
+}
+
+.given-cell {
+    color: #111111;
+    unity-font-style: bold;
+}
+
+.correct-cell {
+    color: #1b4332;
+    background-color: #e8f5e9;
+}
+
+.wrong-cell {
+    color: #8a1c1c;
+    background-color: #ffe5e5;
 }
