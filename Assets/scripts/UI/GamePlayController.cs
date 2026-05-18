@@ -319,7 +319,7 @@ namespace UnitySudoku.UI
                 return;
             }
 
-            if (IsNumberComplete(value))
+            if (_gameState.IsNumberComplete(value))
             {
                 return;
             }
@@ -665,28 +665,28 @@ namespace UnitySudoku.UI
             }
         }
 
-        private bool IsNumberComplete(int number)
-        {
-            if (number < 1 || number > GridSize)
-            {
-                return false;
-            }
+        // private bool IsNumberComplete(int number)
+        // {
+        //     if (number < 1 || number > GridSize)
+        //     {
+        //         return false;
+        //     }
 
-            int count = 0;
+        //     int count = 0;
 
-            for (int row = 0; row < GridSize; row++)
-            {
-                for (int col = 0; col < GridSize; col++)
-                {
-                    if (GetDisplayedCellValue(row, col) == number)
-                    {
-                        count++;
-                    }
-                }
-            }
+        //     for (int row = 0; row < GridSize; row++)
+        //     {
+        //         for (int col = 0; col < GridSize; col++)
+        //         {
+        //             if (GetDisplayedCellValue(row, col) == number)
+        //             {
+        //                 count++;
+        //             }
+        //         }
+        //     }
 
-            return count >= GridSize;
-        }
+        //     return count >= GridSize;
+        // }
 
         private void ToggleNotesMode()
         {

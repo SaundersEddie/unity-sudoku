@@ -230,5 +230,32 @@ namespace UnitySudoku.Core.Sudoku
 
             return false;
         }
+
+        public bool IsNumberComplete(int value)
+        {
+            if (value < 1 || value > GridSize)
+            {
+                throw new ArgumentOutOfRangeException(nameof(value));
+            }
+
+            int count = 0;
+
+            for (int row = 0; row < GridSize; row++)
+            {
+                for (int col = 0; col < GridSize; col++)
+                {
+                    int displayedValue = _givenCells[row, col]
+                        ? _solution[row, col]
+                        : _playerValues[row, col];
+
+                    if (displayedValue == value)
+                    {
+                        count++;
+                    }
+                }
+            }
+
+            return count >= GridSize;
+        }
     }
 }

@@ -370,5 +370,134 @@ namespace UnitySudoku.Tests.EditMode
 
             Assert.IsFalse(gameState.HasAnyNotes(0, 0));
         }
+
+        [Test]
+        public void IsNumberComplete_ReturnsFalseWhenNumberAppearsFewerThanNineTimes()
+        {
+            int[,] solution = SudokuGenerator.GenerateSolution(seed: 12345);
+            bool[,] givenCells = new bool[9, 9];
+
+            SudokuGameState gameState = new SudokuGameState(solution, givenCells);
+
+            Assert.IsFalse(gameState.IsNumberComplete(1));
+        }
+
+        [Test]
+        public void IsNumberComplete_CountsGivenCells()
+        {
+            int[,] solution = SudokuGenerator.GenerateSolution(seed: 12345);
+            bool[,] givenCells = new bool[9, 9];
+
+            int targetNumber = 1;
+
+            for (int row = 0; row < 9; row++)
+            {
+                for (int col = 0; col < 9; col++)
+                {
+                    if (solution[row, col] == targetNumber)
+                    {
+                        givenCells[row, col] = true;
+                    }
+                }
+            }
+
+            SudokuGameState gameState = new SudokuGameState(solution, givenCells);
+
+            Assert.IsTrue(gameState.IsNumberComplete(targetNumber));
+        }
+
+        [Test]
+        public void IsNumberComplete_CountsPlayerValues()
+        {
+            int[,] solution = SudokuGenerator.GenerateSolution(seed: 12345);
+            bool[,] givenCells = new bool[9, 9];
+
+            SudokuGameState gameState = new SudokuGameState(solution, givenCells);
+
+            int targetNumber = 1;
+            int placedCount = 0;
+
+            for (int row = 0; row < 9; row++)
+            {
+                for (int col = 0; col < 9; col++)
+                {
+                    if (solution[row, col] == targetNumber)
+                    {
+                        gameState.TrySetPlayerValue(row, col, targetNumber);
+                        placedCount++;
+                    }
+                }
+            }
+
+            Assert.AreEqual(9, placedCount);
+            Assert.IsTrue(gameState.IsNumberComplete(targetNumber));
+        }
+
+        [Test]
+        public void IsNumberComplete_CountsMixedGivenAndPlayerValues()
+        {
+            int[,] solution = SudokuGenerator.GenerateSolution(seed: 12345);
+            bool[,] givenCells = new bool[9, 9];
+
+            int targetNumber = 1;
+            int seenCount = 0;
+
+            for (int row = 0; row < 9; row++)
+            {
+                for (int col = 0; col < 9; col++)
+                {
+                    if (solution[row, col] == targetNumber)
+                    {
+                        if (seenCount < 4)
+                        {
+                            givenCells[row, col] = true;
+                        }
+
+                        seenCount++;
+                    }
+                }
+            }
+
+            SudokuGameState gameState = new SudokuGameState(solution, givenCells);
+
+            for (int row = 0; row < 9; row++)
+            {
+                for (int col = 0; col < 9; col++)
+                {
+                    if (!givenCells[row, col] && solution[row, col] == targetNumber)
+                    {
+                        gameState.TrySetPlayerValue(row, col, targetNumber);
+                    }
+                }
+            }
+
+            Assert.IsTrue(gameState.IsNumberComplete(targetNumber));
+        }
+
+        [Test]
+        public void IsNumberComplete_RejectsZero()
+        {
+            int[,] solution = SudokuGenerator.GenerateSolution(seed: 12345);
+            bool[,] givenCells = new bool[9, 9];
+
+            SudokuGameState gameState = new SudokuGameState(solution, givenCells);
+
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+                gameState.IsNumberComplete(0)
+            );
+        }
+
+        [Test]
+        public void IsNumberComplete_RejectsTen()
+        {
+            int[,] solution = SudokuGenerator.GenerateSolution(seed: 12345);
+            bool[,] givenCells = new bool[9, 9];
+
+            SudokuGameState gameState = new SudokuGameState(solution, givenCells);
+
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+                gameState.IsNumberComplete(10)
+            );
+        }
     }
 }

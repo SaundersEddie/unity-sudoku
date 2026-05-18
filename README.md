@@ -1,112 +1,92 @@
 # Unity Sudoku
 
-A Unity Sudoku project being built as the next version after the completed Python Sudoku prototype.
+Unity Sudoku is a cross-platform Sudoku game prototype built in Unity using UI Toolkit and the New Input System project direction.
 
-The Python version proved the core concepts first: generated Sudoku boards, solution validation, clue hiding, difficulty settings, notes, timer, move count, pause, theme support, pytest coverage, and batch puzzle testing. This Unity version now uses that work as the reference point while rebuilding the game for desktop, mobile, tablet, and WebGL targets.
+This project follows the Python Sudoku prototype, which was used to prove the core Sudoku generation and validation concepts before building a Unity version.
 
-## Project Status
+## Current Status
 
-This project is currently in early Unity development.
+The Unity version is now a playable prototype.
 
-Completed so far:
-
-- Unity project structure created
-- Main menu scene created
-- Gameplay scene created
-- Game over scene reserved for later
-- UI Toolkit is being used for UI
-- New Input System is the default input direction for the project
-- Main menu UI created
-- Difficulty selection added
-- Main menu scene flow to gameplay works
-- Gameplay UI shell created
-- Sudoku board placeholder created
-- Full solved Sudoku board generation ported to C#
-- Sudoku validation added in C#
-- Puzzle clue hiding added by difficulty
-- EditMode test setup created and working
-- Runtime assembly definition added
-- EditMode test assembly definition added
-- Tests are passing for the current core logic
-
-## Planned Platforms
-
-The Unity version is being planned for:
+Current supported targets being planned around:
 
 - Windows desktop
 - macOS desktop
 - Android
 - WebGL
 
-Mobile, tablet, and WebGL testing will be handled periodically during development rather than after every small change. Most of the early work is logic and game structure, so the first focus is correctness and scene flow.
+The project is being built logic-first, with mobile/tablet/web testing planned during development rather than after the entire game is complete.
 
-## Current Scenes
+## Scenes
 
-The project currently uses three scenes:
+The project uses three scenes:
 
-- `mainMenu`
-- `gamePlay`
-- `gameOver`
+    mainMenu
+    gamePlay
+    gameOver
 
 ### mainMenu
 
-The main menu currently includes:
+Current features:
 
-- Title
+- Title screen
 - Difficulty selection
 - Play Level button
-- About button
+- About panel
 - Quit button
+- Scene transition into gameplay
 
 Difficulty options:
 
-- Easy
-- Medium
-- Hard
-- Godlike
-
-The selected difficulty is stored and passed to the gameplay scene through `GameSettings`.
+- Easy: 30 starting clues
+- Medium: 22 starting clues
+- Hard: 15 starting clues
+- Godlike: 5 starting clues
 
 ### gamePlay
 
-The gameplay scene currently includes:
+Current features:
 
-- Title/header area
-- Difficulty display
-- Timer placeholder
-- Move count placeholder
-- 9x9 Sudoku board
-- Number pad placeholder
-- Notes, Clear, Pause, and Menu buttons
-
-The scene currently generates a solved Sudoku board, hides clues based on the selected difficulty, and renders the visible starting clues.
+- Sudoku board generation
+- Starting clue hiding based on selected difficulty
+- Internal generated solution used as the answer key
+- Cell selection
+- Number entry using UI buttons
+- Keyboard input for desktop
+- Correct/wrong answer validation
+- Clear selected cell
+- Move count
+- Timer
+- Notes mode
+- Pause/resume
+- Board hidden while paused
+- Light/dark gameplay theme toggle
+- Row, column, box, and matching-number highlights
+- Completed-number button graying
+- Completed-number input guard
+- Completion detection
+- Scene transition to gameOver
 
 ### gameOver
 
-The game over scene exists as part of the planned scene flow but has not been built out yet.
+Current features:
 
-## Current Difficulty Settings
-
-The Unity version uses a digital answer-key model. The generated solution is the accepted solution for the round.
-
-Current visible clue counts:
-
-- Easy: 30 clues
-- Medium: 22 clues
-- Hard: 15 clues
-- Godlike: 5 clues
-
-These values are expected to be adjusted as the game develops.
+- Puzzle complete screen
+- Difficulty result
+- Final time
+- Final move count
+- Play Again button
+- Main Menu button
 
 ## Digital Sudoku Rule
 
-This project is not trying to behave exactly like a paperback Sudoku puzzle.
+Unity Sudoku is a digital Sudoku game built from a generated answer key.
 
-The generated solution is the authority. Lower-clue modes may technically allow more than one valid Sudoku completion, but the game validates player input against the generated answer key for that round.
+Each round generates a complete valid Sudoku solution. The game then displays a limited number of starting clues depending on difficulty. Player answers are validated against the generated solution.
 
-That rule is intentional for the digital game version.
+Some low-clue modes may technically allow more than one valid Sudoku completion if treated like a paper puzzle, but this game accepts only the generated solution for that round. That is intentional for this digital version.
 
-## Current Folder Structure
+## Project Structure
 
 Current main folders:
 
@@ -118,103 +98,153 @@ Current main folders:
       Audio/
       Tests/
 
-Current important scripts and UI files include:
+Core script areas:
 
-    Assets/GameUI/MainMenu/MainMenu.uxml
-    Assets/GameUI/MainMenu/MainMenu.uss
-    Assets/GameUI/GamePlay/GamePlay.uxml
-    Assets/GameUI/GamePlay/GamePlay.uss
+    Assets/Scripts/Core/
+    Assets/Scripts/Core/Sudoku/
+    Assets/Scripts/SceneFlow/
+    Assets/Scripts/UI/
 
-    Assets/Scripts/Core/DifficultyLevel.cs
-    Assets/Scripts/Core/GameSettings.cs
-    Assets/Scripts/Core/Sudoku/SudokuGenerator.cs
-    Assets/Scripts/Core/Sudoku/SudokuValidator.cs
-    Assets/Scripts/Core/Sudoku/SudokuPuzzle.cs
-    Assets/Scripts/SceneFlow/SceneNames.cs
-    Assets/Scripts/UI/MainMenuController.cs
-    Assets/Scripts/UI/GamePlayController.cs
+UI Toolkit files:
 
-    Assets/Scripts/UnitySudoku.Runtime.asmdef
-    Assets/Tests/EditMode/UnitySudoku.EditModeTests.asmdef
+    Assets/GameUI/MainMenu/
+    Assets/GameUI/GamePlay/
+    Assets/GameUI/GameOver/
+
+Tests:
+
+    Assets/Tests/EditMode/
+
+## Current Core Classes
+
+### DifficultyLevel
+
+Defines the available difficulty levels:
+
+- Easy
+- Medium
+- Hard
+- Godlike
+
+### GameSettings
+
+Stores shared session data, including:
+
+- selected difficulty
+- gameplay theme setting
+- final completed difficulty
+- final move count
+- final elapsed time
+- visible clue count per difficulty
+
+### SudokuGenerator
+
+Generates complete valid 9x9 Sudoku solution boards.
+
+### SudokuValidator
+
+Validates completed Sudoku solution boards by checking:
+
+- rows
+- columns
+- 3x3 boxes
+- valid values from 1 through 9
+
+### SudokuPuzzleBuilder
+
+Creates puzzle clue maps from completed solutions.
+
+It controls which cells are visible at the start of a round based on the selected difficulty.
+
+### SudokuGameState
+
+Tracks gameplay state and rules, including:
+
+- given cells
+- player-entered values
+- notes
+- move count
+- correct/wrong value checks
+- completion detection
+
+## Input
+
+Current gameplay input supports:
+
+- mouse/touch cell selection
+- on-screen number buttons
+- keyboard number input
+- Backspace/Delete to clear
+- N to toggle notes mode
+- P or Escape to pause/resume
+
+Keyboard support is intended mainly for desktop and WebGL play.
 
 ## Testing
 
-Unity EditMode tests have been added and are passing.
-
-The current test setup includes:
-
-- Runtime assembly definition for game scripts
-- EditMode test assembly definition
-- NUnit-based Unity EditMode tests
+The project includes Unity EditMode tests.
 
 Current test coverage includes:
 
 - Sudoku solution generation returns a 9x9 board
-- Generated Sudoku solutions are valid
-- Same seed creates the same solved board
+- Generated solutions are valid Sudoku boards
+- Seeded generation can produce deterministic boards
 - Multiple generated boards validate successfully
-- Validator rejects duplicate values in rows
-- Validator rejects duplicate values in columns
-- Validator rejects duplicate values in 3x3 boxes
-- Validator rejects invalid values such as 0 and 10
+- Validator rejects row duplicates
+- Validator rejects column duplicates
+- Validator rejects 3x3 box duplicates
+- Validator rejects invalid values
 - Validator rejects null boards
-- Difficulty clue counts match expected values
-- Puzzle builder uses the requested visible clue count
-- Puzzle builder keeps the generated solution reference
-- Puzzle builder creates deterministic visible clue layouts when seeded
-- Puzzle builder rejects null solutions
-- Puzzle builder rejects invalid visible clue counts
-- Difficulty clue counts can create matching puzzle boards
+- Difficulty clue counts are correct
+- Puzzle builder uses requested clue counts
+- Puzzle builder rejects invalid input
+- Puzzle visibility can be reproduced with a seed
+- Game state rejects invalid construction
+- Given cells cannot be edited
+- Editable cells accept values
+- Same value does not increase move count twice
+- Changed values increase move count
+- Clear behavior is tracked correctly
+- Correct and wrong values are detected
+- Completion detection works
+- Notes can be added and removed
+- Notes do not count as moves
+- Notes are rejected on given cells and filled cells
+- Final values clear notes
 
-Current expected test count:
+Current expected test count at this checkpoint:
 
-    22 passing EditMode tests
+    46 passing EditMode tests
 
-## Running Tests
+## Current Development Notes
 
-Open Unity Test Runner:
+The Unity version is intentionally following the same disciplined approach as the Python prototype:
 
-    Window > General > Test Runner
+1. Build the logic.
+2. Test the logic.
+3. Wire the UI.
+4. Manually validate scene behavior.
+5. Push stable checkpoints.
 
-Then select:
+This keeps the project from turning into a giant UI-driven mess where gameplay rules are hard to test.
 
-    EditMode
+## Known Future Work
 
-Run all EditMode tests.
+Likely next steps:
 
-Do not use Player tests for this stage of development. The current tests are pure logic tests and belong in EditMode.
+- Full game-wide theme support across mainMenu and gameOver
+- Responsive layout pass for desktop, Android, tablet, and WebGL
+- Build testing on Windows/macOS/WebGL/Android
+- Mobile safe-area checks
+- Audio feedback
+- Visual polish
+- Better gameOver presentation
+- Optional saved preferences using PlayerPrefs
 
-## Current Development Approach
+## Current Checkpoint
 
-The Unity version is being built in small controlled steps.
+The project currently has a playable Unity Sudoku loop:
 
-Completed steps:
+    mainMenu -> gamePlay -> gameOver
 
-1. Main menu UI shell
-2. Difficulty selection
-3. Scene flow to gameplay
-4. Gameplay UI shell
-5. Solved board generation
-6. Solved board validation
-7. EditMode test setup
-8. Difficulty-based clue hiding
-
-Next planned steps:
-
-1. Cell selection
-2. Number input
-3. Answer-key validation
-4. Clear cell behavior
-5. Move count
-6. Timer
-7. Notes mode
-8. Pause mode
-9. Game completion detection
-10. Game over scene
-11. Mobile/tablet/WebGL layout pass
-
-## Notes
-
-This project is being developed as a Unity version of a previously completed Python Sudoku prototype. The Python version acts as the reference implementation for puzzle logic and testing philosophy.
-
-The current Unity priority is to build a reliable, tested core before spending too much time on visual polish.
+The core gameplay is working and tested, with the Python version serving as the reference implementation for logic and feature behavior.
