@@ -242,3 +242,118 @@
     display: none;
 }
 
+/* Dark theme */
+
+.dark-theme .gameplay-root {
+    background-color: #101010;
+}
+
+.dark-theme .game-card {
+    background-color: #1f1f1f;
+    border-color: #eeeeee;
+}
+
+.dark-theme .title-label {
+    color: #eeeeee;
+}
+
+.dark-theme .stat-label {
+    color: #dddddd;
+}
+
+.dark-theme .sudoku-board {
+    background-color: #eeeeee;
+    border-color: #eeeeee;
+}
+
+.dark-theme .sudoku-cell {
+    background-color: #222222;
+    color: #eeeeee;
+    border-color: #555555;
+}
+
+.dark-theme .sudoku-cell.box-right {
+    border-right-color: #eeeeee;
+}
+
+.dark-theme .sudoku-cell.box-bottom {
+    border-bottom-color: #eeeeee;
+}
+
+.dark-theme .related-cell {
+    background-color: #2d2d2d;
+}
+
+.dark-theme .matching-cell {
+    background-color: #3a3a3a;
+}
+
+.dark-theme .selected-cell {
+    background-color: #444444;
+    border-left-color: #dddddd;
+    border-top-color: #dddddd;
+}
+
+.dark-theme .given-cell {
+    color: #ffffff;
+}
+
+.dark-theme .correct-cell {
+    color: #b7f7c0;
+    background-color: #18351d;
+}
+
+.dark-theme .wrong-cell {
+    color: #ffb4b4;
+    background-color: #421d1d;
+}
+
+.dark-theme .notes-cell {
+    color: #bbbbbb;
+}
+
+.dark-theme .number-button,
+.dark-theme .secondary-button {
+    background-color: #252525;
+    color: #eeeeee;
+    border-color: #777777;
+}
+
+.dark-theme .number-button:hover,
+.dark-theme .secondary-button:hover {
+    background-color: #333333;
+}
+
+.dark-theme .number-button.number-complete {
+    background-color: #3a3a3a;
+    border-color: #555555;
+    color: #888888;
+}
+
+.dark-theme .primary-button,
+.dark-theme .active-button {
+    background-color: #eeeeee;
+    color: #111111;
+    border-color: #eeeeee;
+}
+
+.dark-theme .primary-button:hover {
+    background-color: #d8d8d8;
+}
+
+.dark-theme .pause-overlay {
+    background-color: rgba(0, 0, 0, 0.94);
+}
+
+.dark-theme .pause-card {
+    background-color: #1f1f1f;
+    border-color: #eeeeee;
+}
+
+.dark-theme .pause-title {
+    color: #eeeeee;
+}
+
+.dark-theme .pause-text {
+    color: #cccccc;
+}

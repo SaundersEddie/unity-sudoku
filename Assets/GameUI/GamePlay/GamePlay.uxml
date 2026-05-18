@@ -39,6 +39,7 @@
                 <ui:Button name="notesButton" text="Notes: Off" class="secondary-button" />
                 <ui:Button name="clearButton" text="Clear" class="secondary-button" />
                 <ui:Button name="pauseButton" text="Pause" class="secondary-button" />
+                <ui:Button name="themeButton" text="Theme: Light" class="secondary-button" />
                 <ui:Button name="menuButton" text="Menu" class="secondary-button" />
             </ui:VisualElement>
 
@@ -51,7 +52,7 @@
                     <ui:Button name="pauseMenuButton" text="Main Menu" class="secondary-button" />
                 </ui:VisualElement>
             </ui:VisualElement>
-            
+
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

@@ -31,7 +31,10 @@ namespace UnitySudoku.UI
         private Button _menuButton;
         private Button _resumeButton;
         private Button _pauseMenuButton;
+        private Button _themeButton;
         private VisualElement _pauseOverlay;
+        private VisualElement _root;
+        private VisualElement _gameCard;
 
         private readonly List<Label> _cellLabels = new();
         private readonly List<Button> _numberButtons = new();
@@ -48,6 +51,8 @@ namespace UnitySudoku.UI
         {
             UIDocument document = GetComponent<UIDocument>();
             VisualElement root = document.rootVisualElement;
+            _root = root;
+            _gameCard = root.Q<VisualElement>("gameCard");
 
             _difficultyLabel = root.Q<Label>("difficultyLabel");
             _timerLabel = root.Q<Label>("timerLabel");
@@ -61,6 +66,7 @@ namespace UnitySudoku.UI
             _menuButton = root.Q<Button>("menuButton");
             _resumeButton = root.Q<Button>("resumeButton");
             _pauseMenuButton = root.Q<Button>("pauseMenuButton");
+            _themeButton = root.Q<Button>("themeButton");
             _pauseOverlay = root.Q<VisualElement>("pauseOverlay");
 
             CacheNumberButtons(root);
@@ -71,10 +77,12 @@ namespace UnitySudoku.UI
             _pauseButton.clicked += PauseGame;
             _resumeButton.clicked += ResumeGame;
             _pauseMenuButton.clicked += ReturnToMainMenu;
+            _themeButton.clicked += ToggleTheme;
 
             SetInitialLabels();
             BuildEmptyBoard();
             GenerateAndRenderPuzzle();
+            ApplyTheme();
         }
 
         private void OnDisable()
@@ -107,6 +115,11 @@ namespace UnitySudoku.UI
             if (_pauseMenuButton != null)
             {
                 _pauseMenuButton.clicked -= ReturnToMainMenu;
+            }
+
+            if (_themeButton != null)
+            {
+                _themeButton.clicked -= ToggleTheme;
             }
 
             foreach (KeyValuePair<Button, EventCallback<ClickEvent>> pair in _numberButtonCallbacks)
@@ -609,6 +622,26 @@ namespace UnitySudoku.UI
             else
             {
                 _notesButton.RemoveFromClassList("active-button");
+            }
+        }
+        
+        private void ToggleTheme()
+        {
+            GameSettings.UseDarkTheme = !GameSettings.UseDarkTheme;
+            ApplyTheme();
+        }
+
+        private void ApplyTheme()
+        {
+            if (GameSettings.UseDarkTheme)
+            {
+                _root.AddToClassList("dark-theme");
+                _themeButton.text = "Theme: Dark";
+            }
+            else
+            {
+                _root.RemoveFromClassList("dark-theme");
+                _themeButton.text = "Theme: Light";
             }
         }
     }

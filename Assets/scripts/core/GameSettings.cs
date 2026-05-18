@@ -4,6 +4,8 @@ namespace UnitySudoku.Core
     {
         public static DifficultyLevel SelectedDifficulty { get; set; } = DifficultyLevel.Easy;
 
+        public static bool UseDarkTheme { get; set; }
+
         public static DifficultyLevel LastCompletedDifficulty { get; private set; } = DifficultyLevel.Easy;
         public static int LastCompletedMoveCount { get; private set; }
         public static int LastCompletedTimeSeconds { get; private set; }
