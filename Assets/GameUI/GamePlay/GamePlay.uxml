@@ -1,0 +1,47 @@
+<ui:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ui="UnityEngine.UIElements"
+    xmlns:uie="UnityEditor.UIElements"
+    xsi:noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd"
+>
+    <Style src="GamePlay.uss" />
+
+    <ui:VisualElement name="gamePlayRoot" class="gameplay-root">
+        <ui:VisualElement name="gameCard" class="game-card">
+
+            <ui:VisualElement name="topBar" class="top-bar">
+                <ui:Label name="titleLabel" text="UNITY SUDOKU" class="title-label" />
+
+                <ui:VisualElement name="statsRow" class="stats-row">
+                    <ui:Label name="difficultyLabel" text="Difficulty: Easy" class="stat-label" />
+                    <ui:Label name="timerLabel" text="Time: 00:00" class="stat-label" />
+                    <ui:Label name="movesLabel" text="Moves: 0" class="stat-label" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+            <ui:VisualElement name="boardContainer" class="board-container">
+                <ui:VisualElement name="sudokuBoard" class="sudoku-board" />
+            </ui:VisualElement>
+
+            <ui:VisualElement name="numberPad" class="number-pad">
+                <ui:Button name="numberButton1" text="1" class="number-button" />
+                <ui:Button name="numberButton2" text="2" class="number-button" />
+                <ui:Button name="numberButton3" text="3" class="number-button" />
+                <ui:Button name="numberButton4" text="4" class="number-button" />
+                <ui:Button name="numberButton5" text="5" class="number-button" />
+                <ui:Button name="numberButton6" text="6" class="number-button" />
+                <ui:Button name="numberButton7" text="7" class="number-button" />
+                <ui:Button name="numberButton8" text="8" class="number-button" />
+                <ui:Button name="numberButton9" text="9" class="number-button" />
+            </ui:VisualElement>
+
+            <ui:VisualElement name="actionButtons" class="action-buttons">
+                <ui:Button name="notesButton" text="Notes: Off" class="secondary-button" />
+                <ui:Button name="clearButton" text="Clear" class="secondary-button" />
+                <ui:Button name="pauseButton" text="Pause" class="secondary-button" />
+                <ui:Button name="menuButton" text="Menu" class="secondary-button" />
+            </ui:VisualElement>
+
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

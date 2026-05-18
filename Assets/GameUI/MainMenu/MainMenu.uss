@@ -17,7 +17,7 @@
 }
 
 .title-label {
-    -unity-font-style: bold;
+    unity-font-style: bold;
     font-size: 34px;
     color: #1f1f1f;
     -unity-text-align: middle-center;
@@ -37,7 +37,7 @@
 }
 
 .section-title {
-    -unity-font-style: bold;
+    unity-font-style: bold;
     font-size: 18px;
     color: #222222;
     margin-bottom: 10px;
@@ -57,7 +57,7 @@
     color: #222222;
     border-width: 2px;
     border-color: #333333;
-    -unity-font-style: bold;
+    unity-font-style: bold;
     font-size: 15px;
 }
 
@@ -87,7 +87,7 @@
     height: 48px;
     margin-bottom: 10px;
     border-radius: 16px;
-    -unity-font-style: bold;
+    unity-font-style: bold;
     font-size: 16px;
 }
 
@@ -136,7 +136,7 @@
 }
 
 .about-title {
-    -unity-font-style: bold;
+    unity-font-style: bold;
     font-size: 26px;
     color: #1f1f1f;
     -unity-text-align: middle-center;

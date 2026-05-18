@@ -1,0 +1,141 @@
+.gameplay-root {
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background-color: #161616;
+}
+
+.game-card {
+    width: 720px;
+    max-width: 92%;
+    padding: 24px;
+    border-radius: 22px;
+    background-color: #f4f1ea;
+    border-width: 4px;
+    border-color: #2b2b2b;
+}
+
+.top-bar {
+    margin-bottom: 18px;
+}
+
+.title-label {
+    unity-font-style: bold;
+    font-size: 34px;
+    color: #1f1f1f;
+    -unity-text-align: middle-center;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+}
+
+.stats-row {
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.stat-label {
+    font-size: 15px;
+    color: #333333;
+    unity-font-style: bold;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.board-container {
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+}
+
+.sudoku-board {
+    width: 456px;
+    height: 456px;
+    background-color: #111111;
+    border-width: 3px;
+    border-color: #111111;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.sudoku-cell {
+    width: 50px;
+    height: 50px;
+    min-width: 50px;
+    min-height: 50px;
+    max-width: 50px;
+    max-height: 50px;
+
+    margin: 0;
+    padding: 0;
+
+    background-color: #ffffff;
+    border-left-width: 0;
+    border-top-width: 0;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-color: #aaaaaa;
+
+    color: #222222;
+    unity-font-style: bold;
+    font-size: 22px;
+    -unity-text-align: middle-center;
+}
+
+.sudoku-cell.box-right {
+    border-right-width: 3px;
+    border-right-color: #111111;
+}
+
+.sudoku-cell.box-bottom {
+    border-bottom-width: 3px;
+    border-bottom-color: #111111;
+}
+
+.number-pad {
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+}
+
+.number-button {
+    width: 52px;
+    height: 44px;
+    margin: 4px;
+    border-radius: 12px;
+    background-color: #ffffff;
+    color: #222222;
+    border-width: 2px;
+    border-color: #333333;
+    unity-font-style: bold;
+    font-size: 18px;
+}
+
+.number-button:hover {
+    background-color: #e7e2d7;
+}
+
+.action-buttons {
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.secondary-button {
+    width: 130px;
+    height: 44px;
+    margin: 4px;
+    border-radius: 14px;
+    background-color: #ffffff;
+    color: #222222;
+    border-width: 2px;
+    border-color: #333333;
+    unity-font-style: bold;
+    font-size: 15px;
+}
+
+.secondary-button:hover {
+    background-color: #e7e2d7;
+}
