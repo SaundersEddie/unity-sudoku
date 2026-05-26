@@ -113,7 +113,7 @@
     color: #222222;
     border-width: 2px;
     border-color: #333333;
-    unity-font-style: bold;
+    -unity-font-style: bold;
     font-size: 18px;
 }
 
@@ -171,7 +171,7 @@
 
 .given-cell {
     color: #111111;
-    unity-font-style: bold;
+    -unity-font-style: bold;
 }
 
 .correct-cell {
