@@ -298,6 +298,25 @@ namespace UnitySudoku.UI
             _root.Focus();
         }
 
+        private void MoveSelectedCell(int rowDelta, int colDelta)
+        {
+            if (_isPaused)
+            {
+                return;
+            }
+
+            if (!HasSelectedCell())
+            {
+                SelectCell(0, 0);
+                return;
+            }
+
+            int nextRow = Mathf.Clamp(_selectedRow + rowDelta, 0, GridSize - 1);
+            int nextCol = Mathf.Clamp(_selectedCol + colDelta, 0, GridSize - 1);
+
+            SelectCell(nextRow, nextCol);
+        }
+
         private void SelectCell(int row, int col)
         {
             if (_isPaused)
@@ -387,6 +406,33 @@ namespace UnitySudoku.UI
                 return;
             }
 
+            if (evt.keyCode == KeyCode.LeftArrow || evt.keyCode == KeyCode.A)
+            {
+                MoveSelectedCell(0, -1);
+                evt.StopPropagation();
+                return;
+            }
+
+            if (evt.keyCode == KeyCode.RightArrow || evt.keyCode == KeyCode.D)
+            {
+                MoveSelectedCell(0, 1);
+                evt.StopPropagation();
+                return;
+            }
+
+            if (evt.keyCode == KeyCode.UpArrow || evt.keyCode == KeyCode.W)
+            {
+                MoveSelectedCell(-1, 0);
+                evt.StopPropagation();
+                return;
+            }
+
+            if (evt.keyCode == KeyCode.DownArrow || evt.keyCode == KeyCode.S)
+            {
+                MoveSelectedCell(1, 0);
+                evt.StopPropagation();
+                return;
+            }
             if (evt.keyCode == KeyCode.N)
             {
                 ToggleNotesMode();

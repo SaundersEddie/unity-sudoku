@@ -8,7 +8,7 @@
 
 .menu-card {
     width: 460px;
-    max-width: 88%;
+    max-width: 92%;
     padding: 28px;
     border-radius: 24px;
     background-color: #f4f1ea;
@@ -18,7 +18,7 @@
 
 .title-label {
     -unity-font-style: bold;
-    font-size: 28px;
+    font-size: 32px;
     color: #1f1f1f;
     -unity-text-align: middle-center;
     margin-bottom: 6px;
@@ -31,6 +31,7 @@
     color: #555555;
     -unity-text-align: middle-center;
     margin-bottom: 24px;
+    white-space: normal;
 }
 
 .section {
@@ -44,52 +45,14 @@
     margin-bottom: 10px;
 }
 
-/* .difficulty-buttons {
-    flex-direction: column;
-    margin-bottom: 14px;
-}
-
-.difficulty-button {
-    width: 100%;
-    height: 44px;
-    margin-bottom: 8px;
-    border-radius: 14px;
-    background-color: #ffffff;
-    color: #222222;
-    border-width: 2px;
-    border-color: #333333;
-    -unity-font-style: bold;
-    font-size: 15px;
-} */
-
-.difficulty-button:hover {
-    background-color: #e7e2d7;
-}
-
-.difficulty-button.selected {
-    background-color: #222222;
-    color: #ffffff;
-}
-
-/* .difficulty-info {
-    font-size: 14px;
-    color: #555555;
-    -unity-text-align: middle-center;
-    margin-top: 4px;
-}
-
-.main-buttons {
-    margin-top: 14px;
-} */
-
 .difficulty-buttons {
     flex-direction: column;
-    margin-bottom: 22px;
+    margin-bottom: 18px;
 }
 
 .difficulty-button {
     width: 100%;
-    height: 44px;
+    min-height: 44px;
     margin-bottom: 10px;
     border-radius: 14px;
     background-color: #ffffff;
@@ -100,22 +63,32 @@
     font-size: 15px;
 }
 
+.difficulty-button:hover {
+    background-color: #e7e2d7;
+}
+
+.difficulty-button.selected {
+    background-color: #222222;
+    color: #ffffff;
+}
+
 .difficulty-info {
     font-size: 14px;
     color: #555555;
     -unity-text-align: middle-center;
+    white-space: normal;
     margin-top: 8px;
-    margin-bottom: 24px;
+    margin-bottom: 22px;
 }
 
 .main-buttons {
-    margin-top: 18px;
+    margin-top: 14px;
 }
 
 .primary-button,
 .secondary-button {
     width: 100%;
-    height: 48px;
+    min-height: 48px;
     margin-bottom: 10px;
     border-radius: 16px;
     -unity-font-style: bold;
@@ -158,7 +131,7 @@
 
 .about-card {
     width: 500px;
-    max-width: 88%;
+    max-width: 92%;
     padding: 26px;
     border-radius: 22px;
     background-color: #f4f1ea;
@@ -172,6 +145,7 @@
     color: #1f1f1f;
     -unity-text-align: middle-center;
     margin-bottom: 16px;
+    white-space: normal;
 }
 
 .about-text {
@@ -183,4 +157,113 @@
 
 .hidden {
     display: none;
+}
+
+.menu-card {
+    width: 420px;
+    max-width: 92%;
+    padding: 26px;
+    border-radius: 24px;
+    background-color: #f4f1ea;
+    border-width: 4px;
+    border-color: #2b2b2b;
+}
+
+.title-label {
+    -unity-font-style: bold;
+    font-size: 30px;
+    color: #1f1f1f;
+    -unity-text-align: middle-center;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+    white-space: normal;
+}
+
+.subtitle-label {
+    font-size: 14px;
+    color: #666666;
+    -unity-text-align: middle-center;
+    margin-bottom: 24px;
+    white-space: normal;
+}
+
+.section {
+    margin-bottom: 18px;
+}
+
+.section-title {
+    -unity-font-style: bold;
+    font-size: 17px;
+    color: #222222;
+    margin-bottom: 4px;
+}
+
+.difficulty-info {
+    font-size: 13px;
+    color: #777777;
+    -unity-text-align: middle-left;
+    white-space: normal;
+    margin-bottom: 12px;
+}
+
+.difficulty-buttons {
+    flex-direction: column;
+}
+
+.difficulty-button {
+    width: 100%;
+    min-height: 40px;
+    margin-bottom: 8px;
+    border-radius: 12px;
+    background-color: #ffffff;
+    color: #222222;
+    border-width: 2px;
+    border-color: #333333;
+    -unity-font-style: bold;
+    font-size: 14px;
+}
+
+.difficulty-button:hover {
+    background-color: #e7e2d7;
+}
+
+.difficulty-button.selected {
+    background-color: #222222;
+    color: #ffffff;
+}
+
+.main-buttons {
+    margin-top: 12px;
+}
+
+.primary-button,
+.secondary-button {
+    width: 100%;
+    min-height: 44px;
+    margin-bottom: 8px;
+    border-radius: 14px;
+    -unity-font-style: bold;
+    font-size: 15px;
+}
+
+.primary-button {
+    background-color: #222222;
+    color: #ffffff;
+    border-width: 2px;
+    border-color: #222222;
+}
+
+.primary-button:hover {
+    background-color: #444444;
+}
+
+.secondary-button {
+    background-color: #ffffff;
+    color: #222222;
+    border-width: 2px;
+    border-color: #333333;
+}
+
+.secondary-button:hover {
+    background-color: #e7e2d7;
 }
