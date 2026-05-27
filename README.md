@@ -1,8 +1,28 @@
 # Unity Sudoku
 
-A Unity 6 Sudoku prototype built with UI Toolkit and the New Input System approach in mind. This project is the Unity version of a Sudoku concept first proven in a Python/Flask prototype.
+A playable Unity 6 Sudoku game built with **UI Toolkit** and the **New Input System**.
 
-The target platforms are:
+This project started as the Unity version of a Sudoku idea first proven in Python. The Unity build now has the core game loop working: menu, difficulty selection, playable Sudoku board, notes, timer, pause behavior, theme switching, completion detection, and a game-over screen.
+
+## Current Status
+
+**Working prototype / playable game.**
+
+The project is functional in Unity and ready for continued polish, platform testing, and eventual release-style packaging.
+
+Current focus areas:
+
+- Keep the gameplay loop stable
+- Continue responsive layout testing
+- Polish desktop, WebGL, mobile, and tablet presentation
+- Preserve test coverage while features are added
+- Commit before major UI Toolkit layout changes — because USS can absolutely go sideways if you let it
+
+## Project Goals
+
+Unity Sudoku is intended to be a clean, tested, multi-platform Sudoku game that can grow from prototype into a polished portfolio/game-site project.
+
+Target platforms:
 
 - Windows desktop
 - macOS desktop
@@ -10,35 +30,58 @@ The target platforms are:
 - Android / mobile
 - Tablet layouts
 
-## Current Status
+## Unity Version
 
-The project reached a strong functional prototype state before being paused.
+Built with:
 
-The core game logic is working, tested, and playable in the Unity Editor and Windows desktop build. WebGL layout testing exposed a UI Toolkit / panel scaling problem that caused the gameplay screen layout to regress during troubleshooting.
+```text
+Unity 6000.3.9f1
+```
 
-Plain English project note:
+## Main Technology
 
-> Great project, temporarily fucked during OpenAI chatGPT AI-assisted layout changes.
+- Unity 6
+- C#
+- UI Toolkit
+- UXML
+- USS
+- `UIDocument`
+- New Input System
+- Unity EditMode tests
 
-The gameplay logic is solid. The current `GamePlay.uss` layout needs to be restored or rebuilt from a known-good version.
+Key package references include:
 
-## Implemented Features
+- `com.unity.inputsystem`
+- `com.unity.test-framework`
+- `com.unity.modules.uielements`
 
-### Scene Flow
+## Scene Flow
 
-The project uses three scenes:
-
-- `mainMenu`
-- `gamePlay`
-- `gameOver`
-
-Current scene flow:
+The project uses three main scenes:
 
 ```text
 mainMenu -> gamePlay -> gameOver
 ```
 
-The main menu allows difficulty selection and starts the game. Gameplay completes into the game-over screen, where the player can play again or return to the main menu.
+Scene files:
+
+```text
+Assets/Scenes/mainMenu.unity
+Assets/Scenes/gamePlay.unity
+Assets/Scenes/gameOver.unity
+```
+
+### Main Menu
+
+The main menu handles difficulty selection and starts the game.
+
+### Gameplay
+
+The gameplay scene contains the Sudoku board, number controls, notes mode, timer, pause behavior, theme toggle, and completion logic.
+
+### Game Over
+
+The game-over scene displays the finished result and lets the player replay or return to the main menu.
 
 ## Difficulty Levels
 
@@ -51,11 +94,9 @@ Difficulty controls how many starting clues are shown.
 | Hard       |             15 |
 | Godlike    |              5 |
 
-The game uses a generated answer key. This is a digital Sudoku implementation: the generated solution is authoritative, even if a very low-clue displayed board could theoretically allow multiple valid Sudoku completions.
+The game uses a generated answer key as the authoritative solution. This keeps digital validation straightforward, even when very low-clue boards could theoretically allow multiple Sudoku-valid completions.
 
-## Gameplay Features
-
-Implemented:
+## Implemented Gameplay Features
 
 - Sudoku solution generation
 - Difficulty-based clue hiding
@@ -90,7 +131,7 @@ Implemented:
 
 The project includes Unity EditMode tests.
 
-Current test count at the last stable logic checkpoint:
+Current test checkpoint:
 
 ```text
 52 passing EditMode tests
@@ -111,73 +152,35 @@ Test coverage includes:
 - Notes behavior
 - Completed-number detection
 
-## Technical Notes
+## Running the Project
 
-### UI Toolkit
+1. Clone the repository.
+2. Open the project in Unity `6000.3.9f1` or a compatible Unity 6 editor.
+3. Open the `mainMenu` scene.
+4. Press Play.
+5. Select a difficulty and play.
 
-The UI is built with Unity UI Toolkit using:
+## Running Tests
 
-- UXML
-- USS
-- `UIDocument`
-- Panel Settings assets
+Use Unity Test Runner:
 
-Each scene uses its own UI document setup.
+```text
+Window -> General -> Test Runner
+```
 
-Panel assets used during development:
+Then run the EditMode test suite.
 
-- `MainMenuPanelAsset`
-- `GamePlayPanelAsset`
-- `GameOverPanelAsset`
+Expected checkpoint:
 
-### Assembly Definitions
+```text
+52 passing EditMode tests
+```
 
-Unity EditMode tests required explicit assembly definition setup.
+## WebGL Testing Notes
 
-Runtime scripts use a runtime assembly definition.
+For WebGL builds, test through a local server instead of opening `index.html` directly.
 
-EditMode tests use a dedicated test assembly definition referencing the runtime assembly.
-
-This was required so Unity could discover and run the tests properly.
-
-## Known Issues
-
-### Gameplay Layout Regression
-
-The gameplay logic is working, but the gameplay UI layout was damaged during WebGL layout troubleshooting.
-
-Symptoms included:
-
-- Gameplay board overflowing in WebGL
-- Board and controls overlapping
-- Pause overlay not rendering cleanly after layout edits
-- Gameplay card behaving differently between Editor, Windows build, mobile simulator, and WebGL
-
-Recommended recovery path:
-
-1. Restore `Assets/GameUI/GamePlay/GamePlay.uss` from the last known-good commit.
-2. Avoid broad full-file layout replacements without a commit first.
-3. Fix WebGL canvas sizing separately from the gameplay USS.
-4. Verify Panel Settings before changing USS dimensions.
-5. Retest in this order:
-   - Unity Editor Full HD
-   - Windows desktop build
-   - Mobile simulator
-   - WebGL local server
-
-### WebGL Canvas
-
-WebGL layout problems appear related to the browser canvas size and Unity panel scaling, not only USS styling.
-
-Recommended WebGL checks:
-
-- Player Settings -> WebGL -> Resolution and Presentation
-- Canvas width / height
-- WebGL template
-- Compression settings
-- Local server testing instead of opening `index.html` directly
-
-For local WebGL testing:
+Example:
 
 ```bash
 python -m http.server 8000
@@ -189,31 +192,83 @@ Then open:
 http://localhost:8000
 ```
 
-## Suggested Next Steps
+Useful WebGL checks:
 
-When development resumes:
+- Player Settings -> WebGL -> Resolution and Presentation
+- Canvas width / height
+- WebGL template
+- Compression settings
+- Browser scaling behavior
+- UI Toolkit Panel Settings
 
-1. Recover the last good gameplay USS.
-2. Reconfirm Editor and Windows layout.
-3. Reconfirm the 52 EditMode tests.
-4. Rebuild WebGL with a sane canvas size.
-5. Do a controlled responsive layout pass.
-6. Extend theme support to main menu and game-over screens.
-7. Add final visual polish.
-8. Add platform-specific build notes.
+## UI Toolkit Notes
 
-## Safety Rule Going Forward
+The UI is built with scene-based UI Toolkit documents and panel settings.
 
-Before broad UI changes, especially full USS replacements:
+The project uses:
+
+- UXML for layout structure
+- USS for styling
+- `UIDocument` for scene UI
+- Panel Settings assets for rendering behavior
+
+Panel assets used during development:
+
+- `MainMenuPanelAsset`
+- `GamePlayPanelAsset`
+- `GameOverPanelAsset`
+
+## Assembly Definition Notes
+
+The project uses assembly definitions so runtime code and EditMode tests are separated cleanly.
+
+General structure:
+
+- Runtime scripts live in the runtime assembly
+- EditMode tests live in a dedicated test assembly
+- The test assembly references the runtime assembly
+
+This lets Unity discover and run the tests properly.
+
+## Development Rules
+
+Before broad layout work, especially full USS replacements:
 
 ```text
 Commit first. Experiment second.
 ```
 
-Unity UI Toolkit layout changes can cascade quickly, and rollback safety matters.
+Unity UI Toolkit changes can cascade quickly. A clean commit before a large layout pass saves pain, swearing, and unnecessary archaeology.
+
+Recommended workflow:
+
+1. Commit a working state.
+2. Make one focused change.
+3. Test in the Unity Editor.
+4. Test at target resolutions.
+5. Re-run EditMode tests.
+6. Commit again once stable.
+
+## Suggested Next Steps
+
+Good next tasks:
+
+1. Confirm the latest gameplay layout across Editor, desktop build, WebGL, mobile simulator, and tablet sizes.
+2. Extend light/dark theme support to main menu and game-over screens if not already complete.
+3. Add final visual polish.
+4. Add screenshots or GIFs to this README.
+5. Add platform-specific build notes.
+6. Create a release checklist.
+7. Consider a WebGL demo link once hosted.
+
+## Repository
+
+```text
+https://github.com/SaundersEddie/unity-sudoku
+```
 
 ## Project Purpose
 
-This Unity project is intended as the next version of the Sudoku concept after the Python prototype. The Python version proved the core Sudoku idea and logic. The Unity version expands it toward a proper multi-platform game build.
+This project shows a tested Unity implementation of Sudoku with a real game loop, difficulty modes, input handling, UI Toolkit screens, and automated EditMode coverage.
 
-Despite the current UI layout regression, the project has a strong tested foundation and is worth continuing after restoring the gameplay layout.
+It is both a playable prototype and a solid foundation for a polished Sudoku release.
