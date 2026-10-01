@@ -184,6 +184,14 @@ namespace UnitySudoku.UI
 
             for (int row = 0; row < GridSize; row++)
             {
+                VisualElement boardRow = new VisualElement
+                {
+                    name = $"row-{row}"
+                };
+
+                boardRow.AddToClassList("sudoku-row");
+                _sudokuBoard.Add(boardRow);
+
                 for (int col = 0; col < GridSize; col++)
                 {
                     int capturedRow = row;
@@ -195,7 +203,9 @@ namespace UnitySudoku.UI
                     };
 
                     cell.AddToClassList("sudoku-cell");
-                    cell.RegisterCallback<ClickEvent>(_ => SelectCell(capturedRow, capturedCol));
+                    cell.RegisterCallback<ClickEvent>(
+                        _ => SelectCell(capturedRow, capturedCol)
+                    );
 
                     if (col == 2 || col == 5)
                     {
@@ -207,7 +217,7 @@ namespace UnitySudoku.UI
                         cell.AddToClassList("box-bottom");
                     }
 
-                    _sudokuBoard.Add(cell);
+                    boardRow.Add(cell);
                     _cellLabels.Add(cell);
                 }
             }

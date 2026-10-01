@@ -55,17 +55,20 @@
     background-color: #111111;
     border-width: 3px;
     border-color: #111111;
+    flex-direction: column;
+}
+
+.sudoku-row {
     flex-direction: row;
-    flex-wrap: wrap;
+    flex-grow: 1;
+    flex-basis: 0;
 }
 
 .sudoku-cell {
-    width: 50px;
-    height: 50px;
-    min-width: 50px;
-    min-height: 50px;
-    max-width: 50px;
-    max-height: 50px;
+    flex-grow: 1;
+    flex-basis: 0;
+    min-width: 0;
+    min-height: 0;
 
     margin: 0;
     padding: 0;
