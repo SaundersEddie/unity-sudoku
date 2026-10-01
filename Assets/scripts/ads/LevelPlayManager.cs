@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 using Unity.Services.LevelPlay;
 
 namespace UnitySudoku.Ads
@@ -7,9 +6,9 @@ namespace UnitySudoku.Ads
     public sealed class LevelPlayManager : MonoBehaviour
     {
         private const string AndroidAppKey = "2873102c5";
-        private const string AndroidInterstitialAdUnitId = "kw75g3dypx6bot6v";
+        private const string AndroidBannerAdUnitId = "7dr3vqzweob1wzx2";
 
-        private LevelPlayInterstitialAd _interstitialAd;
+        private LevelPlayBannerAd _bannerAd;
 
         private void Awake()
         {
@@ -22,29 +21,22 @@ namespace UnitySudoku.Ads
             LevelPlay.Init(AndroidAppKey);
         }
 
-        private void Update()
-        {
-            if (Keyboard.current != null &&
-                Keyboard.current.tKey.wasPressedThisFrame)
-            {
-                Debug.Log("[LevelPlay] Test interstitial requested.");
-                ShowInterstitial();
-            }
-        }
-
         private void OnDestroy()
         {
             LevelPlay.OnInitSuccess -= HandleInitSuccess;
             LevelPlay.OnInitFailed -= HandleInitFailed;
 
-            UnregisterInterstitialEvents();
+            UnregisterBannerEvents();
+
+            _bannerAd?.DestroyAd();
+            _bannerAd = null;
         }
 
         private void HandleInitSuccess(LevelPlayConfiguration configuration)
         {
             Debug.Log("[LevelPlay] Initialization successful.");
 
-            CreateInterstitial();
+            CreateBanner();
         }
 
         private void HandleInitFailed(LevelPlayInitError error)
@@ -52,101 +44,85 @@ namespace UnitySudoku.Ads
             Debug.LogError($"[LevelPlay] Initialization failed: {error}");
         }
 
-        private void CreateInterstitial()
+        private void CreateBanner()
         {
-            _interstitialAd =
-                new LevelPlayInterstitialAd(AndroidInterstitialAdUnitId);
+            _bannerAd = new LevelPlayBannerAd(AndroidBannerAdUnitId);
 
-            _interstitialAd.OnAdLoaded += HandleInterstitialLoaded;
-            _interstitialAd.OnAdLoadFailed += HandleInterstitialLoadFailed;
-            _interstitialAd.OnAdDisplayed += HandleInterstitialDisplayed;
-            _interstitialAd.OnAdDisplayFailed += HandleInterstitialDisplayFailed;
-            _interstitialAd.OnAdClosed += HandleInterstitialClosed;
-            _interstitialAd.OnAdClicked += HandleInterstitialClicked;
+            _bannerAd.OnAdLoaded += HandleBannerLoaded;
+            _bannerAd.OnAdLoadFailed += HandleBannerLoadFailed;
+            _bannerAd.OnAdDisplayed += HandleBannerDisplayed;
+            _bannerAd.OnAdDisplayFailed += HandleBannerDisplayFailed;
+            _bannerAd.OnAdClicked += HandleBannerClicked;
+            _bannerAd.OnAdCollapsed += HandleBannerCollapsed;
+            _bannerAd.OnAdExpanded += HandleBannerExpanded;
+            _bannerAd.OnAdLeftApplication += HandleBannerLeftApplication;
 
-            Debug.Log("[LevelPlay] Loading interstitial...");
-            _interstitialAd.LoadAd();
+            Debug.Log("[LevelPlay] Loading banner...");
+            _bannerAd.LoadAd();
         }
 
-        public void ShowInterstitial()
+        private void HandleBannerLoaded(LevelPlayAdInfo adInfo)
         {
-            if (_interstitialAd == null)
-            {
-                Debug.LogWarning("[LevelPlay] Interstitial has not been created.");
-                return;
-            }
-
-            if (!_interstitialAd.IsAdReady())
-            {
-                Debug.LogWarning("[LevelPlay] Interstitial is not ready.");
-                return;
-            }
-
-            Debug.Log("[LevelPlay] Showing interstitial.");
-            _interstitialAd.ShowAd();
+            Debug.Log("[LevelPlay] Banner loaded.");
         }
 
-        private void HandleInterstitialLoaded(LevelPlayAdInfo adInfo)
-        {
-            Debug.Log("[LevelPlay] Interstitial loaded.");
-
-        #if UNITY_ANDROID && !UNITY_EDITOR
-            Debug.Log("[LevelPlay] Android test: showing interstitial in 3 seconds.");
-            Invoke(nameof(ShowInterstitial), 3f);
-        #endif
-        }
-
-        private void HandleInterstitialLoadFailed(LevelPlayAdError error)
+        private void HandleBannerLoadFailed(LevelPlayAdError error)
         {
             Debug.LogError(
-                $"[LevelPlay] Interstitial failed to load: {error}"
+                $"[LevelPlay] Banner failed to load: {error}"
             );
         }
 
-        private void HandleInterstitialDisplayed(LevelPlayAdInfo adInfo)
+        private void HandleBannerDisplayed(LevelPlayAdInfo adInfo)
         {
-            Debug.Log("[LevelPlay] Interstitial displayed.");
+            Debug.Log("[LevelPlay] Banner displayed.");
         }
 
-        private void HandleInterstitialDisplayFailed(
+        private void HandleBannerDisplayFailed(
             LevelPlayAdInfo adInfo,
             LevelPlayAdError error)
         {
             Debug.LogError(
-                $"[LevelPlay] Interstitial failed to display. " +
+                $"[LevelPlay] Banner failed to display. " +
                 $"AdInfo: {adInfo}, Error: {error}"
             );
-
-            _interstitialAd?.LoadAd();
         }
 
-        private void HandleInterstitialClosed(LevelPlayAdInfo adInfo)
+        private void HandleBannerClicked(LevelPlayAdInfo adInfo)
         {
-            Debug.Log("[LevelPlay] Interstitial closed.");
-
-            // Interstitial objects are reusable.
-            // Load the next ad after this one closes.
-            _interstitialAd?.LoadAd();
+            Debug.Log("[LevelPlay] Banner clicked.");
         }
 
-        private void HandleInterstitialClicked(LevelPlayAdInfo adInfo)
+        private void HandleBannerCollapsed(LevelPlayAdInfo adInfo)
         {
-            Debug.Log("[LevelPlay] Interstitial clicked.");
+            Debug.Log("[LevelPlay] Banner collapsed.");
         }
 
-        private void UnregisterInterstitialEvents()
+        private void HandleBannerExpanded(LevelPlayAdInfo adInfo)
         {
-            if (_interstitialAd == null)
+            Debug.Log("[LevelPlay] Banner expanded.");
+        }
+
+        private void HandleBannerLeftApplication(LevelPlayAdInfo adInfo)
+        {
+            Debug.Log("[LevelPlay] Banner left application.");
+        }
+
+        private void UnregisterBannerEvents()
+        {
+            if (_bannerAd == null)
             {
                 return;
             }
 
-            _interstitialAd.OnAdLoaded -= HandleInterstitialLoaded;
-            _interstitialAd.OnAdLoadFailed -= HandleInterstitialLoadFailed;
-            _interstitialAd.OnAdDisplayed -= HandleInterstitialDisplayed;
-            _interstitialAd.OnAdDisplayFailed -= HandleInterstitialDisplayFailed;
-            _interstitialAd.OnAdClosed -= HandleInterstitialClosed;
-            _interstitialAd.OnAdClicked -= HandleInterstitialClicked;
+            _bannerAd.OnAdLoaded -= HandleBannerLoaded;
+            _bannerAd.OnAdLoadFailed -= HandleBannerLoadFailed;
+            _bannerAd.OnAdDisplayed -= HandleBannerDisplayed;
+            _bannerAd.OnAdDisplayFailed -= HandleBannerDisplayFailed;
+            _bannerAd.OnAdClicked -= HandleBannerClicked;
+            _bannerAd.OnAdCollapsed -= HandleBannerCollapsed;
+            _bannerAd.OnAdExpanded -= HandleBannerExpanded;
+            _bannerAd.OnAdLeftApplication -= HandleBannerLeftApplication;
         }
     }
 }
