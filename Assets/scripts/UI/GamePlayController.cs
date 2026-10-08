@@ -5,6 +5,7 @@ using UnityEngine.UIElements;
 using UnitySudoku.Core;
 using UnitySudoku.Core.Sudoku;
 using UnitySudoku.SceneFlow;
+using UnitySudoku.Audio;
 
 namespace UnitySudoku.UI
 {
@@ -147,6 +148,11 @@ namespace UnitySudoku.UI
 
             _elapsedSeconds += Time.deltaTime;
             UpdateTimerLabel();
+        }
+
+        private static void PlayMenuClick()
+        {
+            SfxPlayer.Instance?.PlayMenuClick();
         }
 
         private void CacheNumberButtons(VisualElement root)
@@ -374,6 +380,15 @@ namespace UnitySudoku.UI
             if (!changed)
             {
                 return;
+            }
+
+            if (_gameState.IsCorrectValue(_selectedRow, _selectedCol))
+            {
+                SfxPlayer.Instance?.PlayGoodEntry();
+            }
+            else
+            {
+                SfxPlayer.Instance?.PlayBadEntry();
             }
 
             StartTimerIfNeeded();

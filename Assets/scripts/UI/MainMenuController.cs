@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using UnitySudoku.Core;
 using UnitySudoku.SceneFlow;
+using UnitySudoku.Audio;
 
 namespace UnitySudoku.UI
 {
@@ -63,8 +64,16 @@ namespace UnitySudoku.UI
             _closeAboutButton.clicked -= HideAboutPanel;
         }
 
+        private static void PlayMenuClick()
+        {
+            SfxPlayer.Instance?.PlayMenuClick();
+        }
+
         private void SelectDifficulty(DifficultyLevel difficulty)
         {
+            
+            PlayMenuClick();
+
             _selectedDifficulty = difficulty;
             GameSettings.SelectedDifficulty = difficulty;
 
@@ -95,22 +104,30 @@ namespace UnitySudoku.UI
 
         private void PlayLevel()
         {
+            PlayMenuClick();
+
             GameSettings.SelectedDifficulty = _selectedDifficulty;
             SceneManager.LoadScene(SceneNames.GamePlay);
         }
 
         private void ShowAboutPanel()
         {
+            PlayMenuClick();
+
             _aboutPanel.RemoveFromClassList("hidden");
         }
 
         private void HideAboutPanel()
         {
+            PlayMenuClick();
+
             _aboutPanel.AddToClassList("hidden");
         }
 
         private void QuitGame()
         {
+            PlayMenuClick();
+            
 #if UNITY_EDITOR
             Debug.Log("Quit requested. Application.Quit is ignored in the Unity Editor.");
 #elif UNITY_WEBGL

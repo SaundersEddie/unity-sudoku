@@ -16,7 +16,7 @@ public sealed class MusicPlayer : MonoBehaviour
         source = GetComponent<AudioSource>();
         source.playOnAwake = false;
         source.loop = false;
-        DontDestroyOnLoad(gameObject);
+        // DontDestroyOnLoad(gameObject);
     }
 
     private void Start() => StartCoroutine(PlayMusicCycle());

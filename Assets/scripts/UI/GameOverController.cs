@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using UnitySudoku.Core;
 using UnitySudoku.SceneFlow;
+using UnitySudoku.Audio;
 
 namespace UnitySudoku.UI
 {
@@ -45,6 +46,11 @@ namespace UnitySudoku.UI
             {
                 _mainMenuButton.clicked -= ReturnToMainMenu;
             }
+        }
+
+        private static void PlayMenuClick()
+        {
+            SfxPlayer.Instance?.PlayMenuClick();
         }
 
         private void RenderResults()
