@@ -53,7 +53,8 @@ namespace UnitySudoku.UI
             _quitButton.clicked += QuitGame;
             _closeAboutButton.clicked += HideAboutPanel;
 
-            SelectDifficulty(GameSettings.SelectedDifficulty);
+            // SelectDifficulty(GameSettings.SelectedDifficulty);
+            SelectDifficulty(GameSettings.SelectedDifficulty, false);
         }
 
         private void OnDisable()
@@ -69,10 +70,12 @@ namespace UnitySudoku.UI
             SfxPlayer.Instance?.PlayMenuClick();
         }
 
-        private void SelectDifficulty(DifficultyLevel difficulty)
+        private void SelectDifficulty(DifficultyLevel difficulty, bool playSound = true)
         {
-            
-            PlayMenuClick();
+            if (playSound)
+            {
+                PlayMenuClick();
+            }
 
             _selectedDifficulty = difficulty;
             GameSettings.SelectedDifficulty = difficulty;
