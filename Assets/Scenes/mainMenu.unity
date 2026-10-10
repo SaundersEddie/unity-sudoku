@@ -370,7 +370,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef2d3db01660fcf44812907a30c22393, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnitySudoku.Runtime::UnitySudoku.Audio.SfxPlayer
-  menuClick: {fileID: 8300000, guid: 6510c932d2cc5f94f810d727965d4d9e, type: 3}
+  menuClick: {fileID: 8300000, guid: 149205b8d4213ae46980a79e628f49cb, type: 3}
   goodEntry: {fileID: 8300000, guid: 3a7f59c35d7622448872391c2ef1fc16, type: 3}
   badEntry: {fileID: 8300000, guid: 1f627e071711ef248bc62531b00746ae, type: 3}
   sfxVolume: 1
